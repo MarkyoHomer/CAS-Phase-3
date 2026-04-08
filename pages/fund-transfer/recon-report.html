@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recon Report - CAS</title>
+  <link rel="icon" href="../../cas.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../camis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar-root"></div>
+  <div class="tab-container">
+    <div class="headwrapper">
+      <header>
+        <nav style="width:75%;font-size:16px;font-weight:bold;" id="xtitle">Recon Report</nav>
+        <div style="color:white;font-size:16px;font-weight:bold;">
+          <button type="button" onclick="logout()" style="cursor:pointer;float:right;background:transparent;border:none;margin-right:100px;height:20px;width:25px;">
+            <i style="color:white;" class="fas fa-right-to-bracket"></i>
+          </button>
+          <ul style="float:right;margin-right:10px;">-user</ul>
+          <ul style="float:right;margin-right:0;" id="userRole"></ul>
+        </div>
+      </header>
+    </div>
+    <div class="content active"><br><br>
+      <!-- PAGE CONTENT HERE -->
+      <div class="form-container">
+        <form style="min-width:1200px;" id="formheight">
+          <div class="subtab-container">
+            <div class="subtabs"></div>
+            <div class="subRtab active" id="sub-tab4-tab1" onclick="openTab(event,'subcon-tab4-tab1')">Recon Report</div>
+            <div class="subRtab" id="sub-tab4-tab2" onclick="openTab(event,'subcon-tab4-tab2')">Source Recon Report</div>
+          </div>
+
+          <div id="subcon-tab4-tab1" class="subRcontent active-subRtab-content" style="padding:0;">
+            <nav style="width:170px;"><br>
+              <label style="font-size:10px;color:gray;padding:20px;" for="datefromFTrecon">Start Date:</label><br>
+              <input style="margin-left:20px;" type="date" id="datefromFTrecon" name="datefromFTrecon" onchange="ftdatechangerecon()">
+            </nav>
+            <nav style="width:180px;"><br>
+              <label style="font-size:10px;color:gray;padding:20px;" for="FTRecondateto">End Date:</label><br>
+              <input style="margin-left:20px;" type="date" id="datetoFTrecon" name="datetoFTrecon">
+            </nav>
+            <nav style="width:150px;"><br><br>
+              <select id="selectrecreport" style="width:140px;height:30px;">
+                <option value="" disabled selected hidden>Select report type</option>
+                <option>Variance Report</option>
+                <option>Variance and Tally</option>
+              </select>
+            </nav>
+            <nav style="width:130px;"><br><br>
+              <div class="dropdown" style="width:120px;font-size:12px;height:35px;">
+                <input type="text" id="cluster" placeholder="All Cluster" style="font-size:12px;" onkeyup="filterDropdowncluster()" onclick="toggleDropdowncluster()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-cluster" class="dropdown-list">
+                  <div>Cluster 1</div><div>Cluster 2</div><div>Cluster 3</div>
+                  <div>CLUSTER 4A</div><div>CLUSTER 4B</div><div>Cluster 5</div>
+                  <div>Cluster 6</div><div>Cluster 7</div><div>Cluster 8</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:130px;"><br><br>
+              <div class="dropdown" style="width:120px;font-size:12px;height:35px;">
+                <input type="text" id="Area" placeholder="All Area" style="font-size:12px;" onkeyup="filterDropdownarearecon()" onclick="toggleDropdownarearecon()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-arearecon" class="dropdown-list">
+                  <div value="ZAA">ZAA</div><div value="ZAB">ZAB</div>
+                  <div value="ZAC">ZAC</div><div value="ZAM">ZAM</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:130px;"><br><br>
+              <div class="dropdown" style="width:120px;font-size:12px;height:35px;">
+                <input type="text" id="recnBranch" placeholder="All Branch" style="font-size:12px;" onkeyup="filterDropdownbranchrecon()" onclick="toggleDropdownbranchrecon()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-branchrecon" class="dropdown-list">
+                  <div value="AAA">AAA</div><div value="AAB">AAB</div><div value="AAC">AAC</div>
+                  <div value="AAD">AAD</div><div value="AAE">AAE</div><div value="AAF">AAF</div>
+                  <div value="AAG">AAG</div><div value="AAW">AAW</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:170px;"><br><br>
+              <div class="dropdown" style="width:140px;font-size:12px;height:35px;">
+                <input type="text" id="recntype" placeholder="All Transfer" style="font-size:12px;" onkeyup="filterDropdowntyperecon()" onclick="toggleDropdowntyperecon()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-typerecon" class="dropdown-list">
+                  <div value="Send">Send</div><div value="Deposit">Deposit</div>
+                  <div value="Withdraw">Withdraw</div><div value="All Banks">All Banks</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:90px;"><br>
+              <button type="button" onclick="reconreportfilters()" style="float:right;margin:20px;" class="custom-button-blue">
+                <i class="fas fa-file" style="color:white;font-size:14px;margin-right:5px"></i>Request
+              </button>
+            </nav><br><br><br><br>
+
+            <fieldset style="width:100%;margin-top:20px;">
+              <div class="search-container">
+                <nav style="width:73%;height:20px;text-align:left;margin-left:15px;font-size:12px;font-weight:bold;margin-bottom:15px;">
+                  <h4 id="reporttitlerecon">Fund Transfer and Journal Entries Reconciliation</h4>
+                </nav>
+              </div>
+              <div class="table-container" id="variancerecon" style="display:none;">
+                <table id="summaryrecontable" class="recontable">
+                  <thead>
+                    <tr>
+                      <th>Cluster</th><th>Area Count</th><th>Branch Count</th>
+                      <th>Transaction Count</th><th>Total Amount</th><th>Download</th><th style="width:70px;">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="table-container" id="variancetally" style="display:none;">
+                <table id="summaryrecontable2" class="recontable">
+                  <thead>
+                    <tr>
+                      <th>Cluster</th><th>Reconciled Area Count</th><th>Reconciled Branch Count</th>
+                      <th>Reconciled Transaction Count</th><th>Reconciled Total Amount</th>
+                      <th>Variance Area Count</th><th>Variance Branch Count</th>
+                      <th>Variance Transaction Count</th><th>Variance Total Amount</th>
+                      <th>Download</th><th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </fieldset>
+          </div>
+
+          <div id="subcon-tab4-tab2" class="subRcontent" style="padding:0;">
+            <fieldset style="width:100%;margin-top:20px;">
+              <table id="sourcerecontable" class="recontable">
+                <thead>
+                  <tr>
+                    <th>FT Transaction Date</th><th>Transfer Type</th><th>Transaction ID</th>
+                    <th>Origin</th><th>Destination</th><th>Amount</th><th>Courier</th><th>Remarks</th>
+                    <th>FT Ref Code</th><th>Area</th><th>Transaction Date</th><th>No.</th>
+                    <th>Status</th><th>Branch</th><th>Account Name</th><th>Debit</th><th>Credit</th>
+                    <th>Remarks</th><th>Upload Time</th><th>Transaction Ref No.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>03/31/2025</td><td>Send</td><td>BBB-13-002002S00S0SAU</td><td>BBB</td><td>AAA</td><td>5,000,000.00</td><td>9876:DELA CRUZ JUAN</td><td>BBB-13-002002S00S0SAU-AAA/9876: DELA CRUZ JUAN</td><td>FT-BBB03312025-001-Active</td><td>ZAB</td><td>03/31/2025</td><td>1</td><td>Finalized</td><td>BBB</td><td>Fund Transfer-Send</td><td>0.00</td><td>5,000,000.00</td><td>BBB-13-002002S00S0SAU-AAA/9876: DELA CRUZ JUAN</td><td>03/31/2025 13:04:01</td><td>BBB0000103312025</td></tr>
+                </tbody>
+              </table>
+              <div class="pagination">
+                <select style="width:53px;border:none;" id="contpage2" name="contpage">
+                  <option value="5">5</option><option value="10">10</option>
+                  <option value="20">20</option><option value="50">50</option>
+                </select>
+                <button type="button" id="topBtn" onclick="changePage(-1)" class="disabled" disabled>l&lt;</button>
+                <button type="button" id="prevBtn" onclick="changePage(-1)" class="disabled" disabled>&lt;</button>
+                <button type="button" id="count" class="disabled" disabled>0-0 of 0</button>
+                <button type="button" id="nextBtn" onclick="changePage(1)" class="disabled" disabled>&gt;</button>
+                <button type="button" id="fwdBtn" onclick="changePage(1)" class="disabled" disabled>&gt;l</button>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../general_script.js"></script>
+<script src="../../sidebar.js"></script>
+<script src="../../page-shell.js"></script>
+</body>
+</html>
+

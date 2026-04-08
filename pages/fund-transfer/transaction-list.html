@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction List – CAS</title>
+  <link rel="icon" href="../../cas.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../camis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar-root"></div>
+  <div class="tab-container">
+    <div class="headwrapper">
+      <header>
+        <nav style="width:75%;font-size:16px;font-weight:bold;" id="xtitle">Transaction List</nav>
+        <div style="color:white;font-size:16px;font-weight:bold;">
+          <button type="button" onclick="logout()" style="cursor:pointer;float:right;background:transparent;border:none;margin-right:100px;height:20px;width:25px;">
+            <i style="color:white;" class="fas fa-right-to-bracket"></i>
+          </button>
+          <ul style="float:right;margin-right:10px;">-user</ul>
+          <ul style="float:right;margin-right:0;" id="userRole"></ul>
+        </div>
+      </header>
+    </div>
+
+    <div class="content active"><br><br>
+      <div class="form-container">
+        <form style="min-width:1100px;" id="formheight">
+          <fieldset style="width:100%;height:14%;border:transparent;box-shadow:none;">
+            <nav style="width:170px;margin-left:20px;">
+              <label style="font-size:10px;color:gray;" for="datefromFTlist">Start Date:</label><br>
+              <input type="date" id="datefromFTlist">
+            </nav>
+            <nav style="width:170px;">
+              <label style="font-size:10px;color:gray;" for="datetoFTlist">End Date:</label><br>
+              <input type="date" id="datetoFTlist">
+            </nav>
+            <nav style="width:140px;height:33px;"><br>
+              <div class="dropdown" style="width:140px;font-size:12px;height:35px;">
+                <input type="text" id="ft-Area-drop" placeholder="All Area" style="font-size:12px;" onkeyup="filterDropdown()" onclick="toggleDropdown()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList" class="dropdown-list">
+                  <div value="ZAA">ZAA</div><div value="ZAB">ZAB</div><div value="ZAC">ZAC</div><div value="ZAM">ZAM</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:140px;height:33px;margin-left:5px;"><br>
+              <div class="dropdown" style="width:140px;font-size:12px;height:35px;">
+                <input type="text" id="ft-branch-drop" placeholder="All Branch" style="font-size:12px;" onkeyup="filterDropdownbranch()" onclick="toggleDropdownbranch()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-branch" class="dropdown-list">
+                  <div class="ZAA" value="AAA">AAA</div><div class="ZAA" value="AAB">AAB</div>
+                  <div class="ZAA" value="AAS">AAS</div><div class="ZAA" value="AAJ">AAJ</div>
+                  <div class="ZAA" value="AAK">AAK</div><div class="ZAA" value="AAW">AAW</div>
+                  <div class="ZAB" value="BBA">BBA</div><div class="ZAB" value="BBB">BBB</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:150px;height:33px;margin-left:5px;"><br>
+              <div class="dropdown" style="width:150px;font-size:12px;height:35px;">
+                <input type="text" id="ft-trns-drop" placeholder="All Transfers" style="font-size:12px;" onkeyup="filterDropdowntrns(event)" onclick="toggleDropdowntrns()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-trans" class="dropdown-list">
+                  <div class="noncmd">Send</div><div>Deposit</div><div>Withdraw</div><div>All Bank Transfers</div>
+                </div>
+              </div>
+            </nav>
+            <nav style="width:160px;height:33px;margin-left:5px;"><br>
+              <div class="dropdown" style="width:160px;font-size:12px;height:35px;">
+                <input type="text" id="ft-status-drop" placeholder="All Status" style="font-size:12px;" onkeyup="filterDropdownstat()" onclick="toggleDropdownstat()">
+                <span class="arrow">&#129171;</span>
+                <div id="dropdownList-stat" class="dropdown-list">
+                  <div class="alltype" value="Pending">Pending</div>
+                  <div class="alltype" value="In-Transit">In-Transit</div>
+                  <div class="noncmd" value="Received">Received</div>
+                  <div class="cmd" value="Acknowledged">Acknowledged</div>
+                  <div class="cmd" value="Denied">Denied</div>
+                  <div class="alltype" value="Under Review">Under Review</div>
+                  <div class="alltype" value="Voided">Voided</div>
+                  <div class="alltype" value="Pending-Void">Pending-Void</div>
+                </div>
+              </div>
+            </nav>
+            <button type="button" id="FT-filter" onclick="applyFTFilter()" style="margin-top:20px;width:80px;float:right;" class="custom-button-white">
+              <i class="fa-solid fa-filter" style="margin-right:5px"></i>Filter
+            </button>
+          </fieldset>
+
+          <div class="subtab-container" style="margin-top:1%;">
+            <div class="subtabs"></div>
+            <div class="subRtab active" id="sub-tab5-tab1" onclick="openTab(event,'subcon-tab5-tab1')">All Transactions</div>
+            <div class="subRtab" id="sub-tab5-tab2" onclick="openTab(event,'subcon-tab5-tab2')">Branch To Branch</div>
+            <div class="subRtab" id="sub-tab5-tab3" onclick="openTab(event,'subcon-tab5-tab3')">Bank Transactions</div>
+          </div>
+
+          <div id="subcon-tab5-tab1" class="subRcontent active-subRtab-content" style="padding:0;">
+            <div class="search-container" style="text-align:left;">
+              <nav style="width:320px;margin-left:15px;margin-bottom:20px;"><h3 style="font-size:16px;">Fund Transfers</h3></nav>
+              <nav style="width:470px;">
+                <div class="input-container">
+                  <i class="fas fa-magnifying-glass" style="color:rgb(132,176,248);font-size:14px;margin-left:10px;"></i>
+                  <input type="text" id="searchftall" placeholder="Search" style="width:510px;" oninput="applyFTFilter()">
+                  <button type="button" style="border-radius:80px;width:30px;padding:5px;" onclick="document.getElementById('searchftall').value='';applyFTFilter()">x</button>
+                </div>
+              </nav>
+              <nav style="width:80px;padding:0 20;">
+                <button type="button" id="FT-btn-add" class="custom-button-blue"
+                  onclick="opennewOverlay('overlay1', event, 'ft-data-table', 0, 10, this)"
+                  style="float:right;width:80px;">
+                  <i style="color:white;margin-right:3px;" class="fas fa-square-plus"></i>Add
+                </button>
+              </nav>
+              <nav style="width:85px;padding:0 20;">
+                <button type="button" id="FT-btn-update" class="custom-button-blue"
+                  onclick="opennewOverlay('overlay0', event, 'ft-data-table', 0, 10, this)"
+                  style="float:right;width:80px;margin-right:2px;">
+                  <i style="color:white;margin-right:3px;" class="fas fa-pen-to-square"></i>Update
+                </button>
+              </nav>
+            </div>
+
+            <table id="ft-data-table" class="ftlist">
+              <thead>
+                <tr>
+                  <th style="width:90px;font-size:12px;">Action</th>
+                  <th style="font-size:12px;">Created Date</th>
+                  <th style="font-size:12px;">Transaction Type</th>
+                  <th style="font-size:12px;">Transaction ID</th>
+                  <th style="font-size:12px;">Amount</th>
+                  <th style="font-size:12px;">Origin</th>
+                  <th style="font-size:12px;">Destination</th>
+                  <th style="font-size:12px;">Courier</th>
+                  <th style="font-size:12px;">Memo</th>
+                  <th style="font-size:12px;">Created By</th>
+                  <th style="width:90px;font-size:12px;">Status</th>
+                  <th style="font-size:12px;display:none;">Area</th>
+                  <th style="font-size:12px;display:none;">Recorded by</th>
+                  <th style="font-size:12px;display:none;">Recorded date</th>
+                  <th style="font-size:12px;display:none;">Closed by</th>
+                  <th style="font-size:12px;display:none;">Closed date</th>
+                  <th style="font-size:12px;display:none;">Transaction logs</th>
+                  <th style="font-size:12px;display:none;">Previous Status</th>
+                  <th style="font-size:12px;display:none;">ftid</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div id="subcon-tab5-tab2" class="subRcontent" style="padding:0;"><br><p style="padding:20px;color:#666;">Branch to Branch transactions — coming soon.</p></div>
+          <div id="subcon-tab5-tab3" class="subRcontent" style="padding:0;"><br><p style="padding:20px;color:#666;">Bank transactions — coming soon.</p></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div id="xnotification" class="xnotification"><p style="font-size:14px;margin:10px;" id="xnotify"></p></div>
+
+<!-- Legacy scripts -->
+<script src="../../general_script.js"></script>
+<script src="./camis_ft_add_new.js"></script>
+<script src="../../camis_user_permission.js"></script>
+<script src="../../sidebar.js"></script>
+<script src="../../page-shell.js"></script>
+
+<!-- Firestore module -->
+<script type="module">
+  import { initCamisFT, addFTRecord, renderFTTable } from './camis_ft.js';
+  import { initAuthGuard } from '../shared/auth_guard.js';
+
+  window.renderFTTable = renderFTTable;
+  window.addFTRecord   = addFTRecord;
+
+  initAuthGuard((user) => {
+    document.getElementById('userRole').innerText = user.role;
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById('datefromFTlist').value = today;
+    document.getElementById('datetoFTlist').value   = today;
+    renderFTTable({ dateFrom: today, dateTo: today });
+  });
+
+  window.confirmed = async function (conf, ova) {
+    const area = document.getElementById('ft-Area-drop')?.value || '';
+    const memo = document.getElementById('newftmemo')?.value    || '';
+    const match = memo.match(/((AREA|HO)\s+(LBP|PNB|MBTC|UB))/);
+    const data = {
+      date         : new Date().toISOString().slice(0, 10),
+      type         : document.getElementById('tnstype')?.value      || '',
+      transactionId: document.getElementById('newfttnxid')?.value   || '',
+      origin       : document.getElementById('neworigin')?.value    || (match?.[0] || ''),
+      destination  : document.getElementById('newdest')?.value      || (match?.[0] || ''),
+      amount       : document.getElementById('newftamt')?.value     || '0',
+      courier      : document.getElementById('newftcourier')?.value || '',
+      memo,
+      bank         : document.getElementById('nwbnk')?.value        || '',
+      area,
+    };
+    try {
+      await addFTRecord(data);
+      document.getElementById('ftconfirmation')?.classList.remove('show');
+      if (typeof closeOverlay === 'function') closeOverlay(ova);
+      const today = new Date().toISOString().slice(0, 10);
+      await renderFTTable({
+        dateFrom: document.getElementById('datefromFTlist')?.value || today,
+        dateTo  : document.getElementById('datetoFTlist')?.value   || today,
+      });
+    } catch (err) {
+      alert('Error saving: ' + err.message);
+    }
+  };
+</script>
+</body>
+</html>
+
+
