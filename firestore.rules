@@ -1,0 +1,208 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() && userDoc().role == role;
+    }
+
+    function hasAnyRole(roles) {
+      return isAuthenticated() && userDoc().role in roles;
+    }
+
+    function isBranchUser(branchCode) {
+      return isAuthenticated() && userDoc().branch == branchCode;
+    }
+
+    function isCamisRole() {
+      return hasAnyRole(['admin', 'zaa-aaa', 'zab-aaa', 'zaa-aas', 'zab-aas', 'cru', 'cmd', 'fda', 'pam']);
+    }
+
+    function isFDA() {
+      return hasAnyRole(['admin', 'fda']);
+    }
+
+    function isPAM() {
+      return hasAnyRole(['admin', 'pam']);
+    }
+
+    // ── Users ─────────────────────────────────────────────────────────────────
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || hasRole('admin'));
+      allow write: if hasRole('admin');
+    }
+
+    // ── BCAS Transactions ─────────────────────────────────────────────────────
+    // Branch users read/write own branch; CAMIS roles read all
+    match /bcas_transactions/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow create: if isAuthenticated() && isBranchUser(request.resource.data.branchCode);
+      allow update: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── BCAS Employees ────────────────────────────────────────────────────────
+    // Branch users read/write own branch; CAMIS roles read all
+    match /bcas_employees/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow create: if isAuthenticated() && isBranchUser(request.resource.data.branchCode);
+      allow update: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── BCAS Settlements ──────────────────────────────────────────────────────
+    // Branch users read/write own branch; CAMIS roles read/write all
+    match /bcas_settlements/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow create: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(request.resource.data.branchCode)
+      );
+      allow update: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── BCAS Fund Transfers ───────────────────────────────────────────────────
+    match /bcas_fund_transfers/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow create: if isAuthenticated() && isBranchUser(request.resource.data.branchCode);
+      allow update: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── BCAS Balances ─────────────────────────────────────────────────────────
+    match /bcas_balances/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow write: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(request.resource.data.branchCode)
+      );
+    }
+
+    // ── FT Records (CAMIS-side) ───────────────────────────────────────────────
+    match /ft_records/{docId} {
+      allow read: if isAuthenticated();
+      allow create: if isCamisRole();
+      allow update: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── Settlement Profiles ───────────────────────────────────────────────────
+    // FDA role writes; all authenticated users read
+    match /settlement_profiles/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isFDA();
+    }
+
+    // ── Earning Setup ─────────────────────────────────────────────────────────
+    // FDA role writes; all authenticated users read
+    match /earning_setup/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isFDA();
+    }
+
+    // ── Employee Earnings ─────────────────────────────────────────────────────
+    // Branch users write; CAMIS roles read/write; PAM role approves activation
+    match /employee_earnings/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow create: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(request.resource.data.branchCode)
+      );
+      allow update: if isAuthenticated() && (
+        isPAM() ||
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── Money Changer Transactions ────────────────────────────────────────────
+    match /mc_transactions/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow create: if isAuthenticated() && isBranchUser(request.resource.data.branchCode);
+      allow update: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow delete: if hasRole('admin');
+    }
+
+    // ── Money Changer Inventory ───────────────────────────────────────────────
+    match /mc_inventory/{docId} {
+      allow read: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(resource.data.branchCode)
+      );
+      allow write: if isAuthenticated() && (
+        isCamisRole() ||
+        isBranchUser(request.resource.data.branchCode)
+      );
+    }
+
+    // ── Money Changer Rates ───────────────────────────────────────────────────
+    match /mc_rates/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isFDA() || hasRole('admin');
+    }
+
+    // ── Money Changer Branches ────────────────────────────────────────────────
+    match /mc_branches/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('admin');
+    }
+
+    // ── Money Changer Areas ───────────────────────────────────────────────────
+    match /mc_areas/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('admin');
+    }
+
+  }
+}

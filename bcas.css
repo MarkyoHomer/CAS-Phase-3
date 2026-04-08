@@ -1,0 +1,633 @@
+
+.bcaswrapper{
+  display: flex;
+  user-select: none;
+
+}
+
+.bcaswrapper .sidebar{
+ 
+  width: 240px;
+  height: 1000px;
+  background: white;
+  position: absolute;
+font-size: 15px;
+max-height: 100%; 
+overflow-y: auto; 
+border: 1px solid transparent; /* Invisible border to emphasize shadow */
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+transition: box-shadow 0.3s ease; /* Smooth transition on hover */
+}
+
+.bcaswrapper .sidebar h4{
+  color: #807CDF;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 0px;
+  padding: 20px 10px;
+  border-bottom: 1px solid #bdb8d7;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(255,255,255,0.05);
+
+}
+
+.bcaswrapper .sidebar ul li{
+  padding: 15px;
+
+}    
+
+.bcaswrapper .sidebar ul li a{
+  color: black;
+  display: block;
+}
+
+.bcaswrapper .sidebar ul li a .fas{
+  width: 25px;
+}
+
+.bcaswrapper .sidebar ul li a .fas fa-{
+
+    font-size: 15px;
+    
+}
+
+.bcaswrapper .sidebar ul li:hover{
+  color: black;
+
+}
+    
+.bcaswrapper .sidebar ul li:hover a{
+  color: black;
+font-weight: 700;
+}
+ 
+.bcaswrapper .main_content{
+  width: 100%;
+  margin-left: 200px;
+
+}
+
+.bcaswrapper .main_content .header{
+  padding: 20px;
+  background: #fff;
+  color: #717171;
+  border-bottom: 1px solid #e0e4e8;
+}
+
+.bcaswrapper .main_content .info{
+  margin: 20px;
+  color: #717171;
+  line-height: 25px;
+}
+
+.bcaswrapper .main_content .info div{
+  margin-bottom: 20px;
+  max-height: 100px; 
+}
+
+
+
+
+.bcastab-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 200px;
+    width: calc(100% - 200px); /* Adjust width to make room for the sidebar */
+    height: 100vh;  
+
+    user-select:none ;
+
+}
+
+
+/* Tab Bar */
+ .bcastab-bar {
+    display: flex;
+    background-color:transparent;
+    padding: 10px;
+     display: none; /* Hide the tab bar */
+  
+ } 
+
+ .bcastabs {
+  display: flex;
+  background-color:rgb(7, 21, 110);
+  padding: 10px;
+  font-size: 10px;
+  display: none; /* Hide the tab bar */
+  
+}
+.bcastab {
+    color: white;
+    background-color:rgb(7, 21, 110);
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: left;
+    transition: background-color 0.3s ease;
+    display: none;
+}
+
+
+.bcastab.inactive {
+  display: none; /* Hide the tab bar */
+}
+
+ .bcastab.active {
+  background-color:rgb(7, 21, 110);
+    font-weight: bold;
+    display: block; /* Hide the tab bar */
+   
+}
+
+.bcascontent {
+    display: block;
+
+}
+
+
+.bcasfttab-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 200px;
+    width: calc(100% - 200px); /* Adjust width to make room for the sidebar */
+    height: 100vh;
+    user-select:none ;
+    margin-bottom: 1500px;
+
+
+
+}
+
+
+/* Tab Bar */
+ .bcasfttab-bar {
+    display: flex;
+    background-color:transparent;
+    padding: 10px;
+     display: none; /* Hide the tab bar */
+  
+ } 
+
+ .bcasfttabs {
+  display: flex;
+  background-color:darkBlue;
+  padding: 10px;
+  font-size: 10px;
+  display: none; /* Hide the tab bar */
+  
+}
+.bcasfttab {
+    color: white;
+    background-color: darkBlue;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: left;
+    transition: background-color 0.3s ease;
+    display: none;
+}
+
+
+.bcasfttab.inactive {
+  display: none; /* Hide the tab bar */
+}
+
+ .bcasfttab.active {
+    background-color: darkBlue;
+    font-weight: bold;
+    display: block; /* Hide the tab bar */
+  
+}
+
+.bcasftcontent {
+    display: block;
+
+}
+
+
+.BCAStoggle-btn {
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color:rgb(9, 55, 128);
+    color: white;
+    border: none;
+    text-align: left;
+    width: 100%;
+    font-size: 15px; 
+    
+}
+
+
+
+.BCAStoggle-btn:hover {
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color: rgb(9, 55, 128);
+    color: white;
+    border: none;
+    text-align: left;
+    width: 100%;
+    font-size: 15px;
+   font-weight: bold;
+}
+
+.bcassubmenu {
+ 
+    background-color: rgb(9, 55, 128);
+    padding-left: 10px;
+    font-size: 12px;
+    user-select: none;
+    max-height: 0; /* Initially collapsed */
+    overflow: hidden; /* Hide content beyond max-height */
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+
+}
+
+
+.bcassubmenus {
+ 
+  background-color: rgb(9, 55, 128);
+  padding-left: 10px;
+  font-size: 12px;
+  user-select: none;
+}
+
+.bcassubmenu a {
+    padding: 0px 0px;
+    text-decoration: none;
+    color: White;
+    cursor: pointer;
+}
+
+.bcassubmenus a {
+  padding: 0px 0px;
+  text-decoration: none;
+  color: White;
+  cursor: pointer;
+}
+
+
+.bcassubmenu a:hover {
+    color: White;
+
+}
+
+
+.bcassubmenus a:hover {
+  color: White;
+}
+
+
+.bcassubmenus .active a{
+  font-weight: 700;
+}
+
+
+
+
+.bcassubmenu .active a{
+  font-weight: 700;
+}
+
+
+.bcascontent {
+ display: none;    
+}
+
+.table-container {
+    display: block;
+}
+
+.scroll {
+    display: block;
+    max-height: 320px;
+    overflow-y: auto;   
+    width: 935px;
+    max-width: 935px;
+    table-layout: fixed;
+
+}
+
+.scroll table th{
+    height: 0px;
+    background-color: rgb(172, 168, 168);
+    font-size: 10px;
+    font-weight:lighter;
+    padding:8px;
+    width: 935px;
+
+}
+
+.scroll table th:nth-child(8),
+.scroll table td:nth-child(8) {
+  max-width: 200px;
+  width: 200px;
+  white-space: normal;   /* allow wrapping */
+  word-wrap: break-word; /* break long words */
+  overflow-wrap: break-word; /* modern version */
+}
+
+
+
+.ftscroll {
+    display: block;
+    max-height: 1415px; 
+    overflow: auto;  
+    max-width: 930px;
+    height: 415px;  
+
+}
+
+.ftscroll th{
+   
+    width: 1100px;
+   font-size: 9px;
+    font-weight:lighter;
+    padding:8px;
+    height: 0px;
+}
+
+
+
+.plain-search-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  position: relative;
+}
+
+.plain-search-icon::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid #000; /* plain black */
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.plain-search-icon::after {
+  content: "";
+  width: 12px;          /* longer handle */
+  height: 2px;
+  background: #000;
+  position: absolute;
+  bottom: 2px;
+  right: -6px;
+  transform: rotate(45deg);
+}
+
+
+
+
+.fieldset-container {
+  display: flex; /* Using flexbox to align the fieldsets horizontally */
+  gap: 5px; /* Space between fieldsets */
+
+}
+.camisfieldset-container {
+  display: flex; /* Using flexbox to align the fieldsets horizontally */
+  gap: 25px; /* Space between fieldsets */
+
+}
+
+.bcasentries {  
+  display: block;
+  max-height: 300px; /* Set the height to enable scrolling */
+  overflow: auto;  /* Enable vertical scrolling for the body */
+  width: auto; 
+  height: 300px;
+  table-layout: auto;
+  box-shadow: none;
+  background-color: #fdfbfb; 
+  border-collapse: collapse;
+  border:none;
+ 
+}
+
+.bcasentries th {
+  background-color: #c4c4c6;  
+  width: 100%;
+  margin-top:0;
+  font-size: 9px;
+  font-weight:lighter;
+  padding:8px;
+  height: 0px;
+
+}
+.bcasentries tr {
+  height: 0px; 
+  margin-top:0;
+}
+
+.bcasentries th:nth-child(1), bcasentries td:nth-child(1) {
+  width: 10%; 
+}
+.bcasentries th:nth-child(2), bcasentries td:nth-child(2) {
+  width: 10%;
+}
+
+.bcastags {  
+  display: block;
+  max-height: 300px; /* Set the height to enable scrolling */
+  overflow: auto;  /* Enable vertical scrolling for the body */
+  width: auto; 
+  height: 300px;
+  table-layout: auto;
+  box-shadow: none;
+  background-color: #fdfbfb; 
+  border-collapse: collapse;
+  border:none;
+ 
+}
+
+.bcastags th{
+  background-color: #c4c4c6;  
+  width: 100%;
+  margin-top:0;
+  font-size: 9px;
+  font-weight:lighter;
+  padding:8px;
+  height: 0px;
+
+}
+ 
+
+.bcastags tr {
+      height: 20px; /* You can set a fixed row height */
+    }
+
+.bcastags th:nth-child(1), bcastags td:nth-child(1) {
+  width: 5%; 
+}
+.bcastags th:nth-child(2), bcastags td:nth-child(2) {
+  width: 60%;
+}
+
+
+
+
+.custom-button-bcaseye {
+    background-color: rgb(64, 154, 251);  /* Green background */
+    border:1px solid rgb(64, 154, 251);
+    color: white ;              /* White text */
+    cursor: pointer;           /* Pointer cursor on hover */
+    box-shadow: 0 2px 10px rgba(38, 37, 37, 0.1); /* Floating shadow effect */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    height: 25px;
+    width: 50px;
+    border-radius: 5px;
+  }
+  
+  .custom-button-bcaseye:hover {
+    box-shadow: 0 2px 10px rgba(16, 16, 16, 0.1);
+    background-color: rgb(57, 134, 215);
+  }
+
+
+  .custom-button-bcasvoid {
+    background-color: rgb(176, 16, 40);  /* Green background */
+    border:1px solid rgb(176, 16, 40);
+    color: white ;              /* White text */
+    cursor: pointer;           /* Pointer cursor on hover */
+    box-shadow: 0 2px 10px rgba(38, 37, 37, 0.1); /* Floating shadow effect */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+    height: 25px;
+    width: 50px;
+    border-radius: 5px;
+  }
+  
+  .custom-button-bcasvoid:hover {
+    box-shadow: 0 2px 10px rgba(16, 16, 16, 0.1);
+    background-color:rgb(245, 12, 47);
+  }
+
+  .BCASoverlay {
+    position: fixed;
+    top: 0;
+    left: 180px;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out;
+    opacity:0;
+    pointer-events: none;
+    display:flex
+  }
+  
+  .BCASoverlay .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-height: 200px;
+    transform: scale(0); 
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+  
+  .BCASoverlay.active {
+    display: flex;
+  }
+
+  .BCASoverlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  
+  }
+  
+  .BCASoverlay.show .modal {
+    transform: scale(1); 
+    opacity: 1; 
+  }
+
+
+  .BCASentrycontent {
+    flex-grow: 1;
+    display: none;
+    padding: 20px;
+    background-color: white;
+    margin-top: 0px;
+    height: 100%;
+    border: 1px solid transparent; /* Invisible border to emphasize shadow */
+    
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+   /*transition: box-shadow 0.3s ease; /* Smooth transition on hover */
+   transform: translateX(100%); /* Start off-screen */
+   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+   border-bottom:none;
+}
+
+.BCASentrycontent.active {
+  display: block;
+  opacity: 1; /* Make the active tab visible with fade effect */
+  transform: translateX(0); /* Bring the content into view */
+}
+.BCASentrycontent.hidden {
+  transform: translateX(-100%); /* Shuffle effect off-screen */
+}
+
+
+.actiondropbtns {
+  position: relative; /* Make sure the button is positioned relative for the dropdown to align with it */
+  cursor: pointer; /* Change the cursor to indicate it's clickable */
+}
+
+.actiondrop { 
+  margin-top: 30px; 
+  display: none;
+  opacity: 1;
+  position: absolute; /* Position it absolutely within .actiondropbtns */
+  top: 100%; /* Place the dropdown directly below the button */
+  left: 0; /* Align to the left edge of the button */
+  width: 255px; /* Width of the dropdown */
+  margin-top: 5px; /* Add space between the button and dropdown */
+  z-index: 1000; /* Ensure it appears on top of other content */
+  background-color: white;
+  max-height: 0; /* Initially collapsed */
+  transform: translateY(26px); 
+  border: 1px solid rgb(143, 138, 138);
+  overflow: hidden; /* Hide the content when max-height is 0 */
+  transition: opacity 0.3s ease, transition 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+
+.actiondrop.show {
+  margin-top: 30px;
+  max-height: 500px; 
+  display: block;
+  opacity: 1; /* Fade in the dropdown */ 
+  transform: translateY(0px); 
+}
+
+
+.actiondrop button {
+  background-color: white;
+  margin: 0px 0;
+  border: 1px solid white
+}
+
+
+.actiondropbtn {
+  width:255px; 
+  height:40px; 
+  text-align: left;
+  padding:10px;
+  color:#6966b2;
+}
+
+
+.actiondropbtn:hover {
+  background-color:#ddd;
+  font-weight: 700;
+}

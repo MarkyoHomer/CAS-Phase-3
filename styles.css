@@ -1,0 +1,1277 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+x {
+font-size: 20px;
+
+}
+
+
+header {
+  background: linear-gradient(90deg, #1E3A8A, #2563EB);
+  padding: 15px;
+  text-align: left;
+  font-size: 15px;
+  color: white;
+  display: flex; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  margin-bottom: 25px;
+
+}
+
+fieldset {
+
+  border: 1px solid transparent; /* Invisible border to emphasize shadow */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+  transition: box-shadow 0.3s ease; /* Smooth transition on hover */ 
+}
+
+
+
+select {
+  width: 160px; /* Set the width of the dropdown */
+  padding: 5px; /* Add padding to the dropdown */
+  font-size: 12px; /* Set the font size */
+  border: 1px solid #cecbcb; /* Set the border style */
+  border-radius: 5px; /* Round the corners */
+  cursor: pointer; /* Change the cursor to a pointer */
+  height: 33px;
+  outline:none
+}
+
+
+select:focus {
+  border-color: black; /* Change the border color on focus */
+}
+
+
+
+
+option {
+  padding: 10px; /* Add padding to the options */
+  line-height: 90px;
+  background-color: #fff; /* Set background color for options */
+  height: auto;
+  overflow-y: auto;
+  white-space: normal; /* Allow wrapping of option text */
+  word-wrap: break-word; /* Break words within option text */
+
+}
+
+
+option:hover {
+  background-color: black; /* Change the background color on hover */
+  color: white; /* Change text color on hover */
+}
+
+
+
+.dropdown {
+  position: relative;
+
+}
+
+/* Style the input field */
+.dropdown input {
+  width: 100%;
+  padding: 10px;
+  padding-right: 30px; /* Create space for the arrow */
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: white;
+  font-size:12px;
+}
+
+/* Style for the arrow */
+.dropdown .arrow {
+  position: absolute;
+  top: 60%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none; /* Prevent the arrow from interfering with clicks */
+  font-size: 30px;
+  color: #ccc;
+  cursor: pointer;
+
+  
+}
+
+/* Style the dropdown list */
+.dropdown-list {
+  display: none;
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.dropdown-list div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-list div:hover {
+  background-color: #f1f1f1;
+}
+
+/* Highlight selected item */
+.selected {
+  background-color: #d1e7dd;
+}
+
+
+.placeholder{color: grey;}
+select option:first-child{color: grey; display: none;}
+select option{color: #555;} 
+select option{
+  white-space: normal; /* Allow wrapping of option text */
+  word-wrap: break-word; /* Break words within option text */
+  padding: 10px;
+
+}
+
+  input[type="date"] {
+  width: 150px;  /* Adjust the width here */
+  height: 30px;  /* Adjust the height here */
+  font-size: 12px;  /* Optional: adjust font size for better appearance */
+  border: none;
+  border-bottom: 1px solid Black; 
+ outline:none;
+
+
+}
+
+input[type="text"] {
+  width: 100px;  /* Adjust the width here */
+  height: 30px;  /* Adjust the height here */
+  font-size: 12px;  /* Optional: adjust font size for better appearance */
+  border: none;
+  border-bottom: 1px solid Black; 
+  outline:none;
+  font-weight: lighter;
+  
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;  /* Adjust this value to control the space between checkbox and label */
+}
+
+#tnstype:focus + .dropdown #tnstypef {
+  top: -10px;
+  left: 10px;
+  font-size: 10px;
+  color: #007BFF;
+}
+
+
+input:focus + legend{
+  top: -10px; /* Moves the label up */
+  font-size: 12px; /* Shrinks the font size */
+  color: #000; /* Changes the label color when focused */
+}
+
+
+input:not(:placeholder-shown) + legend {
+  top: -10px; /* Moves the label up */
+  font-size: 12px; /* Shrinks the font size */
+  color: gray; /* Changes the label color when focused */
+}
+
+legend {
+  position: absolute;
+  top: 15px;
+  left: 0px;
+  font-size: 16px;
+  color: #aaa;
+  pointer-events: none; /* Prevents label from blocking input */
+  transition: all 0.3s ease; /* Smooth transition for legend */
+  background-color: white;
+  padding: 0 5px;
+}
+
+
+.custom-button-white {
+  background-color: white;  /* Green background */
+  border:1px solid rgb(14, 32, 164); 
+  color: rgb(128, 141, 238);               /* White text */
+  padding: 5px 10px;         /* Padding for button */
+  font-size: 12px;            /* Font size */
+  border-radius: 4px;         /* Rounded corners */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+  width: 90px;  /* Adjust the width here */
+  height: 30px;
+
+}
+
+.custom-button-white:hover {
+  background-color: whitesmoke;  /* Darker green on hover */
+}
+
+.custom-button-white:disabled {
+  background-color:gray;  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+
+
+.custom-button-gray {
+  background-color: rgb(113, 113, 113);  /* Green background */
+  border:1px solid rgb(152, 151, 151);
+  color: rgb(11, 11, 11);                /* White text */
+  padding: 5px 10px;         /* Padding for button */
+  font-size: 12px;            /* Font size */
+  border-radius: 4px;         /* Rounded corners */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+  width: 90px;  /* Adjust the width here */
+  height: 30px;
+
+}
+
+.custom-button-gray:hover {
+  background-color:rgb(163, 162, 162);  /* Darker green on hover */
+  color: rgb(11, 11, 11);   
+}
+.custom-button-gray:disabled {
+  background-color:rgb(127, 125, 125);  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+
+.custom-button-red {
+  background-color: rgb(167, 25, 25);  /* Green background */
+  border:1px solid rgb(167, 25, 25) ;
+  color: white;                /* White text */
+  padding: 5px 10px;         /* Padding for button */
+  font-size: 12px;            /* Font size */
+  border-radius: 4px;         /* Rounded corners */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+  width: 90px;  /* Adjust the width here */
+  height: 30px;
+
+}
+
+.custom-button-red:hover {
+  background-color:rgb(234, 25, 25); /* Darker green on hover */
+  color: white;
+}
+.custom-button-red:disabled {
+  background-color:gray;  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+
+.custom-button-eye {
+  background-color: white;  /* Green background */
+  border:none;
+  color: rgb(11, 11, 11);                /* White text */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+margin:5px;
+}
+
+.custom-button-eye:hover {
+
+  color: rgb(37, 32, 194);   
+}
+.custom-button-eye:disabled {
+  background-color:gray;  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+.custom-button-paste {
+  background-color: white;  /* Green background */
+  border:none;
+  color: white;               /* White text */
+  cursor: pointer;           /* Pointer cursor on hover */
+  background-color: rgb(37, 32, 194);  
+  transition: background-color 0.3s ease; 
+  margin:5px;
+  
+}
+
+.custom-button-paste:hover {
+
+  color: rgb(37, 32, 194);   
+}
+
+.custom-button-paste:disabled {
+  background-color:gray;  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+.custom-button-copy {
+  background-color: white;  /* Green background */
+  border:none;
+  color: rgb(11, 11, 11);                /* White text */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+  margin:5px;
+}
+
+.custom-button-copy:hover {
+  color: rgb(37, 32, 194);   
+}
+
+.custom-button-copy:disabled {
+  background-color:gray;  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+
+.custom-button-blue {
+  background-color:  #3f61b8;/* Green background */
+  border:1px solid rgb(14, 32, 164); 
+  color: white;               /* White text */
+  padding: 5px 10px;         /* Padding for button */
+  font-size: 12px;            /* Font size */
+  border-radius: 4px;         /* Rounded corners */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+  width: 90px;  /* Adjust the width here */
+  height: 30px;
+
+}
+
+.custom-button-blue:hover {
+  background-color: rgb(16, 16, 193);   /* Darker green on hover */
+}
+
+.custom-button-blue:disabled {
+  background-color:gray;  /* Darker green on hover */
+  cursor: not-allowed;
+  border:none;
+}
+
+.custom-button-blue:enabled:hover {
+  background-color: rgb(16, 16, 193);   /* Darker green on hover */
+
+}
+
+.xnotification {
+  position: fixed;
+  bottom: 10px; /* Position the notification at the bottom */
+  right: 10px; /* Position it to the right */
+  background-color: #1b11df;
+  color: white;
+  padding: 0px;
+  height: 60px;
+  border-radius: 5px;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+}
+
+.waitingupload {
+
+  position: fixed;
+  bottom: 70px; /* Position the notification at the bottom */
+  right: 75px; /* Position it to the right */
+  background-color: #0c0851;
+  color: white;
+  padding: 0px;
+  height: 60px;
+  width: 1140px;
+  border-radius: 0px;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+  z-index:1000;
+}
+
+
+.waitingupload.show {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease;
+}
+
+
+/* Active state when showing the notification */
+.xnotification.show {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease;
+}
+
+.cancel {
+  background-color: white;  /* Green background */
+  border:none; 
+  color: rgb(101, 101, 104);               /* White text */
+  padding: 5px 10px;         /* Padding for button */
+  font-size: 12px;            /* Font size */
+  border-radius: 10px;         /* Rounded corners */
+  cursor: pointer;           /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+  width: 30px;  /* Adjust the width here */
+  height: 30px;
+  
+}
+
+.cancel:hover {
+  background-color: whitesmoke; 
+}
+
+
+body{
+    background: linear-gradient(135deg, #EFF6FF, #F0FDF4);
+}
+/* Create two columns/boxes that floats next to each other */
+
+nav {
+  float: left;
+  width: 20%;
+  
+   padding: 20 20;
+}
+
+
+.dropdown input:enabled + .arrow {
+  color: #0a0000;
+}
+
+.dropdown input:disabled + .arrow {
+  color: #ccc;
+  
+  }
+
+
+  .dropdown input:enabled +  legend + .arrow {
+    color: #0a0000;
+  }
+  
+  .dropdown input:disabled + legend +  .arrow {
+    color: #ccc;
+    
+    }
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 20 20;
+}
+
+.hidden {
+  display: none;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 100%;
+  background-color: #f1f1f1;
+  height: 650px;
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.headwrapper{
+  width: 100%;
+  height: 0%;
+  background: #2b15be;
+  position: fixed;
+font-size: 15px;
+user-select: none;
+z-index:1000;
+
+
+
+}
+.wrapper{
+  display: flex;
+  position: relative;
+  user-select: none;
+  z-index:1000;
+}
+
+.wrapper .sidebar{
+ 
+  width: 240px;
+  height: 10000px;
+  background: white;
+  position: fixed;
+font-size: 15px;
+max-height: 100%; 
+overflow-y: auto; 
+border: 1px solid transparent; /* Invisible border to emphasize shadow */
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+transition: box-shadow 0.3s ease; /* Smooth transition on hover */
+}
+
+.wrapper .sidebar h4{
+  color: #807CDF;
+  text-transform: uppercase;
+  text-align: left;
+  margin-bottom: 0px;
+  padding: 20px 10px;
+  border-bottom: 1px solid #bdb8d7;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(255,255,255,0.05);
+
+}
+
+.wrapper .sidebar ul li{
+  padding: 15px;
+
+}    
+
+.wrapper .sidebar ul li a{
+  color: black;
+  display: block;
+}
+
+.wrapper .sidebar ul li a .fas{
+  width: 25px;
+}
+
+.wrapper .sidebar ul li a .fas fa-{
+
+    font-size: 15px;
+    
+}
+
+.wrapper .sidebar ul li:hover{
+  color: black;
+font-weight: 700;
+}
+    
+.wrapper .sidebar ul li:hover a{
+  color: black;
+font-weight: 700;
+}
+ 
+.wrapper .main_content{
+  width: 100%;
+  margin-left: 200px;
+
+}
+
+.wrapper .main_content .header{
+  padding: 20px;
+  background: #fff;
+  color: #717171;
+  border-bottom: 1px solid #e0e4e8;
+}
+
+.wrapper .main_content .info{
+  margin: 20px;
+  color: #717171;
+  line-height: 25px;
+}
+
+.wrapper .main_content .info div{
+  margin-bottom: 20px;
+  max-height: 100px; 
+}
+
+.icon-text {
+  display: flex;
+  padding-left: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  align-items: center; /* Aligns the text and icon vertically */
+  gap: 0px; /* Adds space between the icon and text */
+}
+.icon-text:hover {
+  color: black;
+  
+/*font-weight: 700;*/
+
+}
+
+.icon-text .active{
+  font-weight: bold;
+   }
+ /* Submenu (hidden by default) */
+        .submenu {          
+            background-color: white;
+            padding-left: 10px;
+	          font-size: 14px;
+            user-select: none;                
+            max-height: 0; /* Initially collapsed */
+            overflow: hidden; /* Hide content beyond max-height */
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+
+        }
+        
+        .submenu a {
+            padding: 0px 0px;
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
+
+       
+
+        /* Active submenu item */
+        .submenu a:hover {
+            color: black;
+      
+        
+        }
+
+        /* Active tab (highlighted) */
+        .submenu .active a{
+       font-weight: 700;
+        }
+      
+
+
+
+
+     /* Toggle button for submenu */
+        .toggle-btn {
+            cursor: pointer;
+            padding: 10px 15px;
+            background-color: white;
+            color: rgb(35, 35, 201);
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 15px; 
+            
+        }
+
+
+        /* Toggle button for submenu */
+        .toggle-btn:hover {
+            cursor: pointer;
+            padding: 10px 15px;
+            background-color: white;
+            color:  blue;
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 15px;
+           font-weight: bold;
+        }
+
+
+
+   /* Toggle button for submenu */
+        .expand-btn {
+            cursor: pointer;
+            padding: 10px 15px;
+            background-color: white;
+            color: rgb(35, 35, 201);
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 15px; 
+            
+        }
+
+
+        /* Toggle button for submenu */
+        .expand-btn:hover {
+            cursor: pointer;
+            padding: 10px 15px;
+            background-color: white;
+            color:  blue;
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 15px;
+           font-weight: bold;
+        }
+
+
+
+
+        input:disabled {
+          background-color: transparent;
+         }       
+              
+        textarea {
+          width: 100%;  /* Makes the textarea take the full width of its container */
+          height: 40px;  /* Set a specific height for 2 lines */
+          border:none;
+          border-bottom: 1px solid black;
+          padding-top: 10px; /* Add padding to top to center text vertically */
+          padding-bottom: 0px; /* Add padding to bottom */
+          text-align: left; /* Ensure text is left-aligned */
+          font-size:12px;
+          outline:none;
+          resize: none;  /* Disable resizing */
+
+        
+          }
+
+        textarea:disabled{
+            background-color: transparent;
+          }
+
+
+          p {
+            line-height: 1.5; /* Initial line height */
+            margin-bottom: 10px; /* Initial spacing between paragraphs */
+        }
+
+
+    /* Tab Container */
+        .tab-container {
+            display: flex;
+            flex-direction: column;
+            margin-left: 240px;
+            width: calc(100% - 240px); /* Adjust width to make room for the sidebar */
+            height: 100vh;
+            user-select:none ;
+            
+        }
+
+
+
+        /* Tab Bar */
+         .tab-bar {
+            display: flex;
+            background-color:transparent;
+            padding: 10px;
+            display: block; /* Hide the tab bar */
+            
+         } 
+
+         .tabs {
+          display: flex;
+          background-color:darkBlue;
+          padding: 10px;
+          display: none; /* Hide the tab bar */
+          
+      }
+        .tab {
+            color: white;
+            background-color: darkBlue;
+            padding: 10px 20px;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+       
+
+        .tab.inactive {
+          display: none; /* Hide the tab bar */
+      }
+
+         .tab.active {
+            background-color: darkBlue;
+            font-weight: bold;
+    	    display: block; /* Hide the tab bar */
+          
+        }
+
+        /* Tab Content */
+        .content {
+          display: none;
+          
+      
+      }
+      
+      .content.active {
+          display: block;
+      }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+  opacity:0;
+  pointer-events: none;
+}
+
+.overlay .modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 470px;
+  min-height: 500px;
+  transform: scale(0);  
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out,  width 1s ease;
+  overflow-x: hidden;
+
+}
+  
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+
+}
+
+.overlay.show .modal {
+    transform: scale(1); 
+    opacity: 1;   
+  
+}
+
+
+.suboverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+  opacity:0;
+  pointer-events: none;
+  display:flex
+}
+
+.suboverlay .modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 420px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  min-height: 250px;
+  transform: scale(0); 
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.suboverlay.show {
+  opacity: 1;
+  pointer-events: auto;
+
+}
+
+.suboverlay.show .modal {
+  transform: scale(1); 
+  opacity: 1; 
+}
+
+
+
+
+.notifoverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 10%;
+  background-color: rgba(250, 207, 53, 0.5);
+  display: none;
+  justify-content: left;
+  align-items: left;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.captcha-image {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 0px;
+  margin-top: 20px;
+  color:blue;
+  width:200px;
+  text-align: center;
+  user-select: none;
+}
+
+
+ /* Center the entire form */
+ .form-container {
+  display: flex;
+  margin-top:20px;
+  justify-content: center;
+  align-items: top;
+  overflow-y: auto; 
+  margin-bottom:20px;
+}
+
+
+
+/* Form styles */
+form {
+display: flex;
+flex-direction: column;
+width: 1100px;
+padding: 20px;
+border: 1px solid #e9e7e7;
+border-radius: 8px;
+background-color: white;
+margin-top: 20px;
+min-height: 540px;
+box-shadow: 2px 0 12px rgba(0,0,0,0.25);
+margin-bottom: 25px;
+}
+
+
+      .subtab-container {
+        display: flex;
+        justify-content: left;
+        margin-bottom: 20px;
+        text-align: left;
+        width: 100%;
+        border-bottom: 1px solid #e4e7e4; 
+       
+    }
+      .subtabs {
+        display: left;
+        flex-direction: column;
+        background-color:transparent;
+        padding: 10px;
+        display: yes; /* Hide the tab bar */
+
+     } 
+     .subtab {
+      color: rgb(116, 116, 234);
+      background-color:transparent;
+      padding: 10px 10px;
+      cursor: pointer;
+      flex-grow: 0;
+      text-align: left;
+      transition: background-color 0.3s ease;
+      font-size: small;
+    } 
+
+    .subtab:hover {
+      color: #5415c8;
+      border-bottom: 1px solid #5415c8;
+      font-weight: bold;
+  }
+
+    .subtab.active {
+      color: #5415c8;
+      border-bottom: 1px solid #5415c8;
+      font-weight: bold;
+  }
+
+
+  .subRtab-container {
+    flex: 1;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 20px;
+    text-align: left;
+    width: 100%;
+    border-bottom: 1px solid #e4e7e4; 
+    margin-left: 20px;
+
+}
+  .subRtabs {
+    display: left;
+    flex-direction: column;
+    background-color:transparent;
+    padding: 10px;
+    display: yes; /* Hide the tab bar */
+
+ } 
+ .subRtab {
+  color: gray;
+  background-color:transparent;
+  padding: 10px 10px;
+  cursor: pointer;
+  flex-grow: 0;
+  text-align: left;
+  transition: background-color 0.3s ease;
+  font-size: small;
+} 
+
+.subRtab:hover {
+  color: #1458eaad;
+  border-bottom: 1px solid #1458eaad;
+  font-weight: bold;
+}
+
+.subRtab.active {
+  color:  #1458eaad;
+  border-bottom: 1px solid #1458eaad;
+  font-weight: bold;
+}
+
+
+  .subRcontent {
+    flex-grow: 1;
+    display: none;
+    padding: 20px;
+    background-color: white;
+    margin-top: 0px;
+    height: 100%;
+    border: 1px solid transparent; /* Invisible border to emphasize shadow */
+    
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+   /*transition: box-shadow 0.3s ease; /* Smooth transition on hover */
+   transform: translateX(100%); /* Start off-screen */
+   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+   border-bottom:none;
+   border-top-right-radius: 10px;
+   border-top-left-radius: 10px;
+}
+
+.subRcontent.active {
+  display: block;
+  opacity: 1; /* Make the active tab visible with fade effect */
+  transform: translateX(0); /* Bring the content into view */
+}
+.subRcontent.hidden {
+  transform: translateX(-100%); /* Shuffle effect off-screen */
+}
+
+    table {
+     
+      width: 100%;
+      min-height: 30px;
+      border-collapse: collapse;
+      margin-bottom: auto;
+      background-color:white;
+      border-bottom: 1px solid #ddd;
+      table-layout: auto;
+      
+  }
+
+
+
+  
+  th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      font-size: 12px;
+      max-width: 1000px;
+  }
+
+  th {
+      background-color: #4a73db;      
+      color: white;
+      font-size: 14px;
+      position: sticky;  /* Make the header sticky */
+      top: 0;            /* Stick to the top of the table */
+      z-index: 2;        /* Ensure header stays on top */
+      max-width: 1000px;
+      box-sizing: border-box;
+  }
+
+ 
+
+  .content table td {
+    user-select: text;
+  }
+
+  .content table td:first-child{
+    user-select: none;  /* Allow text selection in the first column */
+ 
+  }
+
+  tr:nth-child(event) {
+      background-color: white;
+  }
+
+
+
+  .search-container {
+      margin-right: 5px;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      text-align: right;
+      border:none;
+      
+  }
+
+  .search-container input {
+      padding: 10px;
+      width: 180px;
+      font-size: 12px;
+      border-radius: 3px;
+      /*border: none;*/
+      border: 2px solid #ddd;
+  }
+
+
+
+  .input-container-small {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px ;
+    margin-right: 20px;
+}
+
+
+
+
+.input-container-small input {
+    padding: 10px;
+    font-size: 12px;
+    border:none;
+   width: 270px;
+   outline:none;
+}
+.input-container-small button {
+    float: right;
+    padding: 5px 15px;
+    font-size: 12px;
+    border:none;
+    background-color: white;
+    color:black;
+    cursor: pointer;
+    
+}
+.input-container-small button:hover {
+ background-color: #e5e4e4;
+   }
+
+
+
+
+  .input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px ;
+    margin-right: 20px;
+}
+
+
+
+
+.input-container input {
+    padding: 10px;
+    font-size: 12px;
+    border:none;
+   width: 280px;
+   outline:none;
+}
+.input-container button {
+    float: right;
+    padding: 5px 15px;
+    font-size: 12px;
+    border:none;
+    background-color: white;
+    color:black;
+    cursor: pointer;
+    
+}
+
+.input-container button:hover {
+ background-color: #e5e4e4;
+   } 
+
+
+
+  .pagination {
+      display: flex;
+      justify-content: right;
+      justify-content: bottom;
+      margin-bottom: 2px; 
+      background-color: white;
+   
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+      border-top:none;
+  }
+
+  .pagination button {
+      padding: 8px 12px;
+      margin: 0 3px;
+      background-color: transparent;
+      color: rgb(19, 19, 19);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .pagination button:hover {
+     font-weight: bold;
+  }
+
+  .pagination button.disabled {
+      color: #ccc;
+      cursor: not-allowed;
+  }
+
+
+       .dropdown {
+            position: relative;
+            width: 200px;
+        }
+
+        /* Style the input field */
+        .dropdown input {
+            width: 100%;
+            padding: 10px;
+            padding-right: 30px; /* Create space for the arrow */
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: white;
+        }
+
+        /* Style for the arrow */
+        .dropdown .arrow {
+            position: absolute;
+            top: 60%;
+            right: 10px;
+            transform: translateY(-50%);
+            pointer-events: none; /* Prevent the arrow from interfering with clicks */
+            font-size: 30px;
+            color: #ccc;
+        }
+
+        /* Style the dropdown list */
+        .dropdown-list {
+            display: none;
+            position: absolute;
+            top: 35px;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .dropdown-list div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .dropdown-list div:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Highlight selected item */
+        .selected {
+            background-color: #d1e7dd;
+        }

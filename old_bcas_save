@@ -1,0 +1,336 @@
+function pasteft(BCASoverlayId){
+    const BCASfttable = document.getElementById("BCASfttable");
+    var bcasftrow = BCASfttable.getElementsByTagName("tr");
+    const saveft = document.getElementById('saveft'); 
+
+    navigator.clipboard.readText().then(function(text) {      
+        encryptedInputField.value = text;
+
+
+        if (!text) {
+            errorMessage.textContent = "Clipboard is empty. Please copy some encrypted data.";
+            return;
+        }
+
+        try {         
+            const decryptedData = decodeBase64(text);
+            const fields = decryptedData.split("|");
+                     
+            if (fields.length < 8) {
+            alert("Copied data is not in the standard format.");
+
+             }
+            
+            
+
+            if (ftselectedtype.value ===  fields[1] ){
+              
+                if ( fields[1] === "Send"|| fields[1] === "Deposit"){
+                        if(Bcasbranch.value !== fields[4]){
+                            document.getElementById(BCASoverlayId).classList.add('active');
+                            errorMessage.value="The record is " + fields[1] + " Transaction for " +  fields[4]; 
+                            saveft.disabled = true;
+                        } else if (fields[9] !=='Pending' ){    
+                            document.getElementById(BCASoverlayId).classList.add('active');
+                            errorMessage.value="The record is already having " + fields[9] + " status"; 
+                            saveft.disabled = true;
+                        
+                        } else {
+
+                            ft1.value = ftselectedtype.value;
+                            ft2.value = fields[3];
+                            ft3.value = fields[6];
+
+                                if (ft1.value === 'Send'){
+                                    ft4.value = "";
+                
+                                } else {
+                                ft4.value = fields[7];
+                                }
+                            
+                            ft5.value = fields[7];
+                            ft6.value = fields[2];
+                            ft7.value = fields[5]; 
+
+                            for (var i = 1; i < bcasftrow.length; i++) {
+                                var cellupdte = bcasftrow[i].getElementsByTagName("td");
+                            
+                                if (cellupdte[4].innerText === ft6.value ){ 
+                                   
+                                        document.getElementById(BCASoverlayId).classList.add('active');
+                                        errorMessage.value="This transaction is already been recorded"; 
+                                        saveft.disabled = true;            
+                            
+                            
+                                 }
+                            
+                                                              
+                            }
+                        }
+
+                } else if (fields[1] === "Withdraw"){
+                    if(Bcasbranch.value !== fields[5]){
+                        document.getElementById(BCASoverlayId).classList.add('active');
+                        errorMessage.value="The record is " + fields[1] + " Transaction for " +  fields[4]; 
+                        saveft.disabled = true;
+                       } else if (fields[9] !=='Pending' ){    
+                        document.getElementById(BCASoverlayId).classList.add('active');
+                        errorMessage.value="The record is already having " + fields[9] + " status"; 
+                        saveft.disabled = true;
+                      
+                       } else {
+                        ft1.value = ftselectedtype.value;
+                        ft2.value = fields[3];
+                        ft3.value = fields[6];                        
+                        ft4.value = fields[7];                  
+                        ft5.value = fields[7];
+                        ft6.value = fields[2];
+                        ft7.value = fields[5];
+
+                                for (var i = 1; i < bcasftrow.length; i++) {
+                                    var cellupdte = bcasftrow[i].getElementsByTagName("td");
+                                
+                                    if (cellupdte[4].innerText === ft6.value ){ 
+                                        
+                                            document.getElementById(BCASoverlayId).classList.add('active');
+                                            errorMessage.value="This transaction is already been recorded"; 
+                                            saveft.disabled = true;
+                                
+                                
+                                       
+                                    }                       
+                                                            
+            
+                                } 
+                       }                
+                
+               } else if(ftselectedtype.value ===  'Receive' ){
+                if ( fields[1] === "Send") {
+                    if(Bcasbranch.value !== fields[5]){
+                        document.getElementById(BCASoverlayId).classList.add('active');
+                        errorMessage.value="The record is " + fields[1] + " Transaction for " +  fields[5]; 
+
+                    } else if (fields[9] !== 'In-Transit' ){ 
+                         if (fields[9] !=='Pending'){    
+                        document.getElementById(BCASoverlayId).classList.add('active');
+                        errorMessage.value="The record is already having " + fields[9] + " status"; 
+
+                         } else{
+
+                            ft1.value = ftselectedtype.value;
+                            ft2.value = fields[3];
+                            ft3.value = fields[7];
+                            if (ft1.value === 'Receive' ){
+                                ft4.value = "";
+              
+                            } else {
+                              ft4.value = fields[6];
+                            }
+                            
+                            ft5.value = fields[6];
+                            ft6.value = fields[2];
+                            ft7.value = fields[5];    
+                            saveft.disabled = false;
+
+                            for (var i = 1; i < bcasftrow.length; i++) {
+                                var cellupdte = bcasftrow[i].getElementsByTagName("td");
+                            
+                                if (cellupdte[4].innerText === ft6.value ){ 
+                                   
+                                        document.getElementById(BCASoverlayId).classList.add('active');
+                                        errorMessage.value="This transaction is already been recorded"; 
+                              
+                                        saveft.disabled = true;
+                            
+                                }
+                            
+                            }
+                         
+    
+                        }
+                    } else{
+
+                            ft1.value = ftselectedtype.value;
+                            ft2.value = fields[3];
+                            ft3.value = fields[7];
+                            if (ft1.value === 'Receive' ){
+                                ft4.value = "";
+            
+                            } else {
+                            ft4.value = fields[6];
+                            }
+                            
+                            ft5.value = fields[6];
+                            ft6.value = fields[2];
+                            ft7.value = fields[5]; 
+                            saveft.disabled = false;
+                            
+                        for (var i = 1; i < bcasftrow.length; i++) {
+                            var cellupdte = bcasftrow[i].getElementsByTagName("td");
+                        
+                            if (cellupdte[4].innerText === ft6.value ){                              
+                                document.getElementById(BCASoverlayId).classList.add('active');
+                                errorMessage.value="This transaction is already been recorded"; 
+                                saveft.disabled = true;
+                        
+                            }                     
+
+                        }
+                   }    
+                }   
+
+            
+            } else if (ftselectedtype.value !==  fields[2] ){
+                /*alert("You Selected Invalid Transaction type. The Transaction type you copied is " + fields[2] ); */
+                document.getElementById(BCASoverlayId).classList.add('active');
+                errorMessage.value ="You have selected invalid Transaction Type. The transaction type of the record is " + fields[1]
+            }             
+                    
+        }
+
+        } catch (error) {
+            console.error("Error while decrypting:", error);
+            alert("Invalid data format");
+        }
+     
+
+    }).catch(function(err) {
+        console.error("Failed to read clipboard contents: ", err);
+        alert("Failed to read clipboard contents.");
+    });
+}
+
+
+  //document.getElementById("ft-sub-tab100-tab6-con1-5").innerText = standarddate
+            //document.getElementById("ft-sub-tab100-tab6-con1-6").innerText = standarddate
+            //document.getElementById("ft-sub-tab100-tab6-con1-7").innerText = standarddate
+            //document.getElementById("ft-sub-tab100-tab6-con1-8").innerText = standarddate
+            //document.getElementById("ft-sub-tab100-tab6-con1-9").innerText = standarddate
+            //document.getElementById("ft-sub-tab100-tab6-con1-10").innerText = standarddate
+
+                                       
+                                           
+                                                                           
+                                                                         
+                                           9  <th style="display:none;" >trId</th>
+                                           10  <th style="display:none;" >ftref</th>
+                                           11  <th style="display:none;" >date</th>  1
+                                           
+                                            1 <th  >No.</th> 2
+                                            2  <th >Status</th> 3
+                                            3 <th >Account Name</th> 4
+                                            4  <th >Debit</th> 5
+                                           5  <th >Credit</th>   6
+                                            7  <th >Remarks</th>  
+
+
+
+                                                 <tr >                 
+                                           <th >FTTransactionDate</th>
+                                           <th >Transfer Type</th>
+                                           <th >Transaction ID</th>
+                                           <th >Origin</th>
+                                           <th >Destination</th>
+                                           <th >Amount</th>
+                                           <th >Courier</th>
+                                           <th style="width:3000px;">Remarks</th>    
+                                           <th >FTRefcode</th> 
+                                           <th >Area</th>
+                                           <th >TransactionDate</th>
+                                           <th >No.</th>
+                                           <th >Status</th>
+                                           <th >Account Name</th>
+                                           <th >Debit</th> 
+                                           <th >Credit</th>
+                                           <th >Remarks</th>
+                                           <th >UploadTime</th>   
+                                       </tr>
+
+                                       <tr class="AAA">
+                                        <td><a><button type="button" id="bcas-btn-view4" 
+                                          onclick="viewentries(event, 'BCAStransactions')"class="custom-button-bcaseye">
+                                          <i  class= "fas fa-eye"></i></button></a>
+                                            </td>
+                                            <td>4</td>
+                                            <td>Active</td>
+                                            <td style="width: 180px;">Fund Transfer-Received</td>
+                                            <td >1,500,000.00</td>
+                                            <td >0.00</td>
+                                            <td >11,500,000.00</td>
+                                            <td>AAB-13-003002S00S0SAT-AAA/9876: DELA CRUZ JUAN</td>
+                                            <td style="width: 100px;">Not Uploaded</td>
+                                            <td style="display:none;">AAB-13-003002S00S0SAT</td>
+                                            <td style="display:none;" >FT-AAA04012025-001-Active</td>
+                                            <td  style="display:none;" >04/01/2025</td>
+                                            <td style="display:none;" >ZAA</td>
+                                       </tr>
+
+
+
+
+
+                                           submenuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetTab = e.target.getAttribute('data-tab');
+  
+            // Remove active class from all tabs and content
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+  
+            // Add active class to the corresponding tab and content
+            document.getElementById(targetTab).classList.add('active');
+            document.getElementById('subcon' +  targetTab.slice(3)).classList.add('active');     
+
+            // set current date in ft tranx
+            document.getElementById("ft-sub-tab100-tab6-con1-1").innerText = standarddate
+            document.getElementById("ft-sub-tab100-tab6-con1-2").innerText = standarddate
+            document.getElementById("ft-sub-tab100-tab6-con1-3").innerText = standarddate
+            document.getElementById("ft-sub-tab100-tab6-con1-4").innerText = standarddate
+
+          
+        });
+    });
+
+               <table id="recontable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 70px;">Action</th>
+                                        <th>Details</th>
+                                        <th>Status</th>
+                                        <th>Requested Date</th> 
+                                        <th>Expiry Date</th> 
+                                        <th>Refetch</th>     
+                                        <th style="display: none;">Timer</th>                                           
+                                    </tr>
+
+                                    
+                                </thead>
+                                <tbody>
+
+                                    <tr s>
+                                        <td><a href="#"><i style= "color: rgb(0, 9, 0);" class="fas fa-cloud-arrow-down"></i></a></td>
+                                        <td>Start date: 01/01/2024<br> End date: 01/31/2024<br> Report: Report1<br> Area: ZAA<br>Branch:<br>Status: In Transit<br></td>
+                                        <td>Expired</td>
+                                        <td>03-01-2025 09:23:24</td>
+                                        <td>03-02-2025 09:23:24</td>
+                                        <td><a href="#"><i style= "color: rgb(0, 9, 0);" class="fas fa-rotate-right"></i></a></td>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <td><a href="#"><i style= "color: rgb(0, 9, 0);" class="fas fa-cloud-arrow-down"></i></a></td>
+                                        <td>Start date: 01/01/2024<br> End date: 01/31/2024<br> Report: Report1<br> Area: ZAC<br>Branch:<br>Status: In Transit<br></td>
+                                        <td>Failed</td>
+                                        <td>03-01-2025 09:29:24</td>
+                                        <td>--</td>
+                                        <td><a href="#"><i style= "color: rgb(0, 9, 0);" class="fas fa-rotate-right"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>                         
+  <nav style=" float:right; width: 25%;">
+                                        <div class="input-container-small" style="margin-bottom:10px;" >
+                                            <i class="fas fa-magnifying-glass" style= "color: rgb(132, 176, 248); font-size: 14px; margin-left:10px"></i>
+                                            <input type="text" id="myTextField2" placeholder="Search">
+                                            <button type="button"  onclick="alert('Button clicked!')">x</button>
+                                        </div>
+                                       </nav>

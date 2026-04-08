@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAS – Login</title>
+  <link rel="icon" href="cas.ico" type="image/x-icon">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0b1a5e 0%, #1a3a8f 100%);
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      padding: 40px 36px;
+      width: 340px;
+    }
+    .login-card h2 {
+      text-align: center;
+      color: #0b1a5e;
+      margin-bottom: 6px;
+      font-size: 22px;
+    }
+    .login-card p.subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 28px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; color: #444; margin-bottom: 5px; }
+    .form-group input {
+      width: 100%; padding: 10px 12px;
+      border: 1px solid #ccc; border-radius: 6px;
+      font-size: 14px; transition: border-color .2s;
+    }
+    .form-group input:focus { outline: none; border-color: #3f61b8; }
+    .btn-login {
+      width: 100%; padding: 11px;
+      background: linear-gradient(90deg, #2563EB, #1E40AF);
+      color: #fff; border: none; border-radius: 6px;
+      font-size: 15px; cursor: pointer; transition: opacity .2s;
+    }
+    .btn-login:hover { opacity: .88; }
+    .btn-login:disabled { opacity: .5; cursor: not-allowed; }
+    .error-msg {
+      color: #dc2626; font-size: 13px; text-align: center;
+      margin-top: 12px; display: none;
+    }
+    .spinner {
+      display: none; text-align: center; margin-top: 14px;
+      color: #3f61b8; font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h2>🔐 CAS Login</h2>
+    <p class="subtitle">Computerized Accounting System</p>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="user@example.com" autocomplete="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+    </div>
+
+    <button class="btn-login" id="loginBtn" onclick="handleLogin()">Login</button>
+    <div class="error-msg" id="errorMsg"></div>
+    <div class="spinner" id="spinner">Signing in…</div>
+  </div>
+
+  <script type="module">
+    import { auth, db, COLLECTIONS } from './pages/shared/firebase.js';
+    import {
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    import {
+      doc, getDoc,
+    } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+    // Redirect if already logged in
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const snap = await getDoc(doc(db, COLLECTIONS.USERS, user.uid));
+        if (snap.exists()) {
+          const role = snap.data().role || '';
+          sessionStorage.setItem('userRole', role);
+          sessionStorage.setItem('userEmail', user.email);
+          sessionStorage.setItem('uid', user.uid);
+          window.location.href = 'camis.html';
+        }
+      }
+    });
+
+    window.handleLogin = async function () {
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const btn      = document.getElementById('loginBtn');
+      const errEl    = document.getElementById('errorMsg');
+      const spinner  = document.getElementById('spinner');
+
+      errEl.style.display = 'none';
+      if (!email || !password) {
+        errEl.textContent = 'Please enter email and password.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.style.display = 'block';
+
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        const snap = await getDoc(doc(db, COLLECTIONS.USERS, cred.user.uid));
+
+        if (!snap.exists()) {
+          throw new Error('User profile not found. Contact administrator.');
+        }
+
+        const role = snap.data().role || '';
+        sessionStorage.setItem('userRole',  role);
+        sessionStorage.setItem('userEmail', cred.user.email);
+        sessionStorage.setItem('uid',       cred.user.uid);
+        window.location.href = 'camis.html';
+
+      } catch (err) {
+        let msg = 'Login failed. Please try again.';
+        if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' ||
+            err.code === 'auth/invalid-credential') {
+          msg = 'Invalid email or password.';
+        } else if (err.code === 'auth/too-many-requests') {
+          msg = 'Too many attempts. Try again later.';
+        } else if (err.message) {
+          msg = err.message;
+        }
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+      }
+    };
+
+    // Allow Enter key to submit
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') window.handleLogin();
+    });
+  </script>
+</body>
+</html>
