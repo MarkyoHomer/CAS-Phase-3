@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earning Reports - CAS</title>
+  <link rel="icon" href="../../cas.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../camis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar-root"></div>
+  <div class="tab-container">
+    <div class="headwrapper">
+      <header>
+        <nav style="width:75%;font-size:16px;font-weight:bold;" id="xtitle">Earning Reports</nav>
+        <div style="color:white;font-size:16px;font-weight:bold;">
+          <button type="button" onclick="logout()" style="cursor:pointer;float:right;background:transparent;border:none;margin-right:100px;height:20px;width:25px;">
+            <i style="color:white;" class="fas fa-right-to-bracket"></i>
+          </button>
+          <ul style="float:right;margin-right:10px;">-user</ul>
+          <ul style="float:right;margin-right:0;" id="userRole"></ul>
+        </div>
+      </header>
+    </div>
+    <div class="content active"><br><br>
+      <div class="form-container">
+        <form style="min-width:1100px;">
+          <header style="font-size:16px;background-color:rgb(7,21,110);height:35px;margin-bottom:10px;padding:10px;box-shadow:none;">
+            <i class="fas fa-file-lines" style="margin-right:15px;font-size:12px;"></i>Earnings Report
+          </header>
+          <fieldset style="width:99%;margin:5px;box-shadow:none;border:1px solid #ccc;padding:10px;">
+            <nav style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+              <div><label style="font-size:12px;color:gray;">Date From:</label><br><input type="date" id="earningsReportFrom" style="font-size:12px;width:150px;"></div>
+              <div><label style="font-size:12px;color:gray;">Date To:</label><br><input type="date" id="earningsReportTo" style="font-size:12px;width:150px;"></div>
+              <div><label style="font-size:12px;color:gray;">Item:</label><br>
+                <select id="earningsReportItem" style="font-size:12px;width:180px;height:28px;"><option value="">All Items</option></select>
+              </div>
+              <div><label style="font-size:12px;color:gray;">Employee Type:</label><br>
+                <select id="earningsEmpTypeFilter" style="font-size:12px;width:200px;height:28px;">
+                  <option value="Both">Both</option>
+                  <option value="Associate and Regular SG">Associate and Regular SG</option>
+                  <option value="Security Guard">Security Guard</option>
+                </select>
+              </div>
+              <div><label style="font-size:12px;color:gray;">Status:</label><br>
+                <select id="earningsStatusFilter" style="font-size:12px;width:160px;height:28px;">
+                  <option value="All">All</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Pending Activation">Pending Activation</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>
+              <div style="align-self:flex-end;">
+                <button type="button" id="earningsReportFilter" class="custom-button-blue" style="width:80px;"><i class="fas fa-filter" style="margin-right:5px;"></i>Filter</button>
+                <button type="button" id="earningsReportExport" class="custom-button-gray" style="width:80px;margin-left:5px;"><i class="fas fa-download" style="margin-right:5px;"></i>Export</button>
+              </div>
+            </nav>
+          </fieldset>
+          <fieldset style="width:99%;margin:5px;box-shadow:none;border:3px solid black;height:380px;">
+            <div class="table-container">
+              <table class="ftscroll" id="earningsReportTable" style="height:340px;">
+                <thead>
+                  <tr>
+                    <th>Date</th><th>Item</th><th>Employee No.</th><th>Employee Name</th>
+                    <th>Employee Type</th><th>Amount</th><th>Status</th><th>Remarks</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../general_script.js"></script>
+<script type="module">
+  import { initCamisEarnings } from './camis_earnings.js';
+  import { initAuthGuard } from '../shared/auth_guard.js';
+  initAuthGuard((user) => { document.getElementById('userRole').innerText = user.role; initCamisEarnings(); });
+</script>
+<script src="../../sidebar.js"></script>
+<script src="../../page-shell.js"></script>
+</body>
+</html>
+

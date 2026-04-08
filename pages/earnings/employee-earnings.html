@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Earnings - CAS</title>
+  <link rel="icon" href="../../cas.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../camis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar-root"></div>
+  <div class="tab-container">
+    <div class="headwrapper">
+      <header>
+        <nav style="width:75%;font-size:16px;font-weight:bold;" id="xtitle">Employee Earnings</nav>
+        <div style="color:white;font-size:16px;font-weight:bold;">
+          <button type="button" onclick="logout()" style="cursor:pointer;float:right;background:transparent;border:none;margin-right:100px;height:20px;width:25px;">
+            <i style="color:white;" class="fas fa-right-to-bracket"></i>
+          </button>
+          <ul style="float:right;margin-right:10px;">-user</ul>
+          <ul style="float:right;margin-right:0;" id="userRole"></ul>
+        </div>
+      </header>
+    </div>
+    <div class="content active"><br><br>
+      <div class="form-container">
+        <form style="min-width:1100px;">
+          <header style="font-size:16px;background-color:rgb(7,21,110);height:35px;margin-bottom:10px;padding:10px;box-shadow:none;">
+            <i class="fas fa-money-bill-1" style="margin-right:15px;font-size:12px;"></i>Add Employee Earnings
+          </header>
+          <fieldset style="width:99%;margin:5px;box-shadow:none;border:1px solid #ccc;padding:10px;">
+            <nav style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
+              <div><label style="font-size:12px;color:gray;">Date:</label><br>
+                <input type="text" id="earningDate" readonly style="font-size:12px;width:140px;border:none;border-bottom:1px solid #ccc;color:gray;">
+              </div>
+              <div><label style="font-size:12px;color:gray;">Earning Item:</label><br>
+                <select id="earningItemSelect" style="font-size:12px;width:220px;height:28px;"><option value="">-- select item --</option></select>
+              </div>
+            </nav>
+            <div class="table-container" style="max-height:200px;overflow-y:auto;margin-bottom:10px;">
+              <table style="width:100%;border-collapse:collapse;" id="earningEmployeeTable">
+                <thead style="background:#f0f0f0;">
+                  <tr>
+                    <th style="font-size:12px;padding:4px;">Employee No.</th>
+                    <th style="font-size:12px;padding:4px;">Employee Name</th>
+                    <th style="font-size:12px;padding:4px;">Amount</th>
+                    <th style="width:40px;"></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <nav style="display:flex;gap:10px;align-items:flex-end;margin-bottom:10px;">
+              <div><label style="font-size:12px;color:gray;">Add Employee:</label><br>
+                <select id="earningEmpSelect" style="font-size:12px;width:220px;height:28px;"><option value="">-- select employee --</option></select>
+              </div>
+              <button type="button" onclick="addEarningEmployee()" class="custom-button-blue" style="width:80px;height:28px;font-size:12px;">Add</button>
+            </nav>
+            <nav style="display:flex;gap:12px;align-items:flex-end;margin-bottom:10px;">
+              <div><label style="font-size:12px;color:gray;">Total Amount:</label><br>
+                <input type="text" id="earningTotalAmount" readonly style="font-size:12px;width:140px;border:none;border-bottom:1px solid #ccc;color:gray;text-align:right;">
+              </div>
+              <div style="flex:1;">
+                <label style="font-size:12px;color:gray;">Remarks (<span id="earningRemarksCount">0</span>/50):</label><br>
+                <textarea id="earningRemarks" maxlength="50" rows="2" oninput="document.getElementById('earningRemarksCount').textContent=this.value.length" style="width:100%;font-size:12px;border:1px solid #ccc;resize:none;"></textarea>
+              </div>
+            </nav>
+            <nav style="text-align:right;">
+              <button type="button" onclick="saveEarningEntry()" class="custom-button-blue" style="width:100px;">Save</button>
+            </nav>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../general_script.js"></script>
+<script type="module">
+  import { saveEmployeeEarnings, loadEarningSetup, renderEarningEmployeeRows } from './camis_earnings.js';
+  import { initAuthGuard } from '../shared/auth_guard.js';
+  import { todayISO } from '../shared/db_service.js';
+
+  window._earningEmployees = [];
+  window.renderEarningEmployeeRows = renderEarningEmployeeRows;
+
+  window.addEarningEmployee = async function () {
+    const sel = document.getElementById('earningEmpSelect');
+    if (!sel || !sel.value) return;
+    const opt = sel.options[sel.selectedIndex];
+    if (window._earningEmployees.find(e => e.employeeNumber === sel.value)) return;
+    window._earningEmployees.push({ employeeNumber: sel.value, employeeName: opt.dataset.name || opt.textContent, employeeType: opt.dataset.type || 'Associate', amount: 0 });
+    renderEarningEmployeeRows(window._earningEmployees);
+  };
+
+  window.removeEarningEmployee = function (idx) {
+    window._earningEmployees.splice(idx, 1);
+    renderEarningEmployeeRows(window._earningEmployees);
+  };
+
+  window.saveEarningEntry = async function () {
+    const itemSel = document.getElementById('earningItemSelect');
+    const remarks = document.getElementById('earningRemarks')?.value || '';
+    if (!itemSel?.value) { alert('Please select an earning item.'); return; }
+    if (!window._earningEmployees?.length) { alert('Add at least one employee.'); return; }
+    if (remarks.length > 50) { alert('Remarks must be 50 characters or less.'); return; }
+    const inputs = document.querySelectorAll('#earningEmployeeTable tbody input[type="number"]');
+    inputs.forEach((inp, i) => { if (window._earningEmployees[i]) window._earningEmployees[i].amount = parseFloat(inp.value) || 0; });
+    try {
+      await saveEmployeeEarnings({ date: todayISO(), item: itemSel.options[itemSel.selectedIndex].textContent, itemId: itemSel.value, employees: window._earningEmployees, remarks });
+      alert('Saved successfully.');
+      window._earningEmployees = [];
+      renderEarningEmployeeRows([]);
+    } catch (err) { alert('Error: ' + err.message); }
+  };
+
+  initAuthGuard(async (user) => {
+    document.getElementById('userRole').innerText = user.role;
+    const today = todayISO();
+    const dateEl = document.getElementById('earningDate');
+    if (dateEl) dateEl.value = today;
+    const items = await loadEarningSetup();
+    const sel = document.getElementById('earningItemSelect');
+    if (sel) items.filter(i => i.isActive).forEach(i => {
+      const opt = document.createElement('option');
+      opt.value = i.id; opt.textContent = i.name;
+      opt.dataset.withActivation = i.withActivation ? '1' : '0';
+      sel.appendChild(opt);
+    });
+  });
+</script>
+<script src="../../sidebar.js"></script>
+<script src="../../page-shell.js"></script>
+</body>
+</html>
+
