@@ -38,6 +38,12 @@
     <ul class="submenu" id="IntSub">
       <ul id="IntegDtS"><li><a href="${R}pages/integrations/detailed-status.html"><i class="fas fa-list" style="color:rgb(10,186,10);font-size:14px"></i> Detailed Status</a></li></ul>
       <ul id="IntegExP"><li><a href="${R}pages/integrations/extraction-progress.html"><i class="fas fa-list" style="color:rgb(10,186,10);font-size:14px"></i> Extraction Progress</a></li></ul>
+    </ul>
+
+    <li id="Trnx-Arrow" class="toggle-btn" onclick="toggleSubmenu('TrnxSub')">
+      <a href="#"><i class="fas fa-right-left" style="color:rgb(11,161,11);font-size:18px"></i>
+      Transactions<i style="position:absolute;right:10px;" class="fa-solid fa-angle-down"></i></a>
+    </li>
     <ul class="submenu" id="TrnxSub">
       <li><a href="${R}pages/transactions/head-office.html"><i class="fas fa-list-check" style="color:rgb(10,186,10);font-size:14px"></i> Head Office</a></li>
       <ul id="BCAS"><li><a href="${R}pages/transactions/branch-cas.html"><i class="fas fa-hourglass-half" style="color:rgb(11,161,11);font-size:14px"></i> Branch CAS</a></li></ul>
