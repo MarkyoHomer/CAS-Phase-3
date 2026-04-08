@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settlement Setup - CAS</title>
+  <link rel="icon" href="../../cas.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../camis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar-root"></div>
+  <div class="tab-container">
+    <div class="headwrapper">
+      <header>
+        <nav style="width:75%;font-size:16px;font-weight:bold;" id="xtitle">Settlement Setup</nav>
+        <div style="color:white;font-size:16px;font-weight:bold;">
+          <button type="button" onclick="logout()" style="cursor:pointer;float:right;background:transparent;border:none;margin-right:100px;height:20px;width:25px;">
+            <i style="color:white;" class="fas fa-right-to-bracket"></i>
+          </button>
+          <ul style="float:right;margin-right:10px;">-user</ul>
+          <ul style="float:right;margin-right:0;" id="userRole"></ul>
+        </div>
+      </header>
+    </div>
+    <div class="content active"><br><br>
+      <div class="form-container">
+        <form style="min-width:1100px;">
+          <header style="font-size:16px;background-color:rgb(7,21,110);height:35px;margin-bottom:10px;padding:10px;box-shadow:none;">
+            <i class="fas fa-gear" style="margin-right:15px;font-size:12px;"></i>Settlement Setup
+          </header>
+          <button type="button" onclick="openProfileForm(null)" class="custom-button-blue" style="float:right;margin-right:20px;margin-bottom:10px;width:130px;">
+            <i class="fas fa-square-plus" style="float:left;color:white;font-size:14px;margin-left:10px;"></i>Add Profile
+          </button><br><br>
+          <fieldset style="width:99%;margin:5px;box-shadow:none;border:3px solid black;height:400px;">
+            <div class="table-container">
+              <table class="ftscroll" id="settlementProfilesTable" style="height:360px;">
+                <thead><tr><th style="width:40px;">View</th><th>Main Template</th><th>Status</th><th>Requires Employee</th><th>Closing Template</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </fieldset>
+          <div id="settlementProfileForm" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;">
+            <div style="background:#fff;padding:20px;min-width:560px;max-height:90vh;overflow-y:auto;border-radius:4px;">
+              <li style="font-weight:700;font-size:15px;"><i class="fas fa-gear" style="margin-right:10px;color:rgb(7,21,110);"></i>Settlement Profile</li><br>
+              <fieldset style="border:1px solid #ccc;padding:15px;box-shadow:none;">
+                <nav style="margin-bottom:12px;display:flex;gap:20px;align-items:center;">
+                  <label style="font-size:13px;"><input type="checkbox" id="profileIsActive" checked style="margin-right:6px;">Active</label>
+                  <label style="font-size:13px;"><input type="checkbox" id="profileRequiresEmployee" style="margin-right:6px;">Requires Employee</label>
+                </nav>
+                <nav style="margin-bottom:12px;">
+                  <label style="font-size:13px;color:gray;">Main Template:</label><br>
+                  <input type="text" id="profileMainTemplate" style="width:100%;font-size:13px;border:none;border-bottom:1px solid #ccc;">
+                </nav>
+                <nav style="margin-bottom:12px;">
+                  <label style="font-size:13px;color:gray;">Branch Closing Template:</label><br>
+                  <input type="text" id="profileClosingTemplate" style="width:100%;font-size:13px;border:none;border-bottom:1px solid #ccc;">
+                </nav>
+                <nav style="margin-bottom:8px;">
+                  <label style="font-size:13px;color:gray;font-weight:bold;">Head Office Accounts:</label>
+                  <button type="button" onclick="addHOAccountRow()" class="custom-button-blue" style="float:right;width:100px;font-size:12px;">+ Add Row</button>
+                </nav>
+                <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+                  <thead><tr style="background:#f0f0f0;"><th style="font-size:12px;padding:4px;text-align:left;">Account</th><th style="font-size:12px;padding:4px;text-align:center;">Reverse Normality</th><th style="width:40px;"></th></tr></thead>
+                  <tbody id="hoAccountsTable"></tbody>
+                </table>
+                <nav style="text-align:right;margin-top:10px;">
+                  <button type="button" onclick="document.getElementById('settlementProfileForm').style.display='none'" class="custom-button-gray" style="width:80px;margin-right:10px;">Cancel</button>
+                  <button type="button" onclick="submitProfileForm()" class="custom-button-blue" style="width:80px;">Save</button>
+                </nav>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../general_script.js"></script>
+<script type="module">
+  import { initCamisSettlements, openProfileForm, submitProfileForm } from '../settlements/camis_settlements.js';
+  import { initAuthGuard } from '../shared/auth_guard.js';
+  window.openProfileForm = openProfileForm;
+  window.submitProfileForm = submitProfileForm;
+  initAuthGuard((user) => { document.getElementById('userRole').innerText = user.role; initCamisSettlements(); });
+</script>
+<script src="../../sidebar.js"></script>
+<script src="../../page-shell.js"></script>
+</body>
+</html>
+
