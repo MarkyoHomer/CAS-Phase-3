@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Monitoring - CAS</title>
+  <link rel="icon" href="../../cas.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../camis.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="wrapper">
+  <div id="sidebar-root"></div>
+  <div class="tab-container">
+    <div class="headwrapper">
+      <header>
+        <nav style="width:75%;font-size:16px;font-weight:bold;" id="xtitle">Upload Monitoring</nav>
+        <div style="color:white;font-size:16px;font-weight:bold;">
+          <button type="button" onclick="logout()" style="cursor:pointer;float:right;background:transparent;border:none;margin-right:100px;height:20px;width:25px;">
+            <i style="color:white;" class="fas fa-right-to-bracket"></i>
+          </button>
+          <ul style="float:right;margin-right:10px;">-user</ul>
+          <ul style="float:right;margin-right:0;" id="userRole"></ul>
+        </div>
+      </header>
+    </div>
+    <div class="content active"><br><br>
+      <div class="form-container">
+        <form style="min-width:1100px;">
+          <header style="font-size:16px;background-color:rgb(7,21,110);height:35px;margin-bottom:10px;padding:10px;box-shadow:none;">
+            <i class="fas fa-magnifying-glass" style="margin-right:15px;font-size:12px;"></i>Upload Monitoring
+          </header>
+          <nav style="display:flex;gap:10px;flex-wrap:wrap;padding:10px;align-items:flex-end;">
+            <div><label style="font-size:12px;color:gray;">Date From:</label><br><input type="date" id="uploadMonFrom" style="font-size:12px;width:150px;"></div>
+            <div><label style="font-size:12px;color:gray;">Date To:</label><br><input type="date" id="uploadMonTo" style="font-size:12px;width:150px;"></div>
+            <button type="button" class="custom-button-blue" style="width:80px;align-self:flex-end;"><i class="fas fa-filter" style="margin-right:5px;"></i>Filter</button>
+          </nav>
+          <fieldset style="width:99%;margin:5px;box-shadow:none;border:3px solid black;height:380px;">
+            <table class="ftscroll" style="height:340px;width:100%;">
+              <thead><tr><th>Branch</th><th>Date</th><th>Upload Status</th><th>Records</th><th>Uploaded By</th><th>Time</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../general_script.js"></script>
+<script src="../../sidebar.js"></script>
+<script src="../../page-shell.js"></script>
+</body>
+</html>
+
