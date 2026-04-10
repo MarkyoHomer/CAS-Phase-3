@@ -104,7 +104,7 @@
 
           <!-- ── All Transactions tab ── -->
           <div id="subcon-tab5-tab1" class="subRcontent active-subRtab-content" style="padding:0;">
-            <div class="search-container" style="text-align:left;">
+            <div class="search-container" style="text-align:left;align-items:center;">
               <nav style="width:320px;margin-left:15px;margin-bottom:20px;"><h3 style="font-size:16px;">Fund Transfers</h3></nav>
               <nav style="width:470px;">
                 <div class="input-container">
@@ -113,25 +113,28 @@
                   <button type="button" style="border-radius:80px;width:30px;padding:5px;" onclick="document.getElementById('searchftall').value='';applyFTFilter()">x</button>
                 </div>
               </nav>
-              <nav style="width:80px;padding:0 20;">
+              <!-- Add button -->
+              <nav style="padding:0 4px;">
                 <button type="button" id="FT-btn-add" class="custom-button-blue"
                   onclick="openOverlay('overlay1')"
-                  style="float:right;width:80px;">
-                  <i style="color:white;margin-right:3px;" class="fas fa-square-plus"></i>Add
+                  style="width:80px;">
+                  <i style="color:white;margin-right:4px;" class="fas fa-square-plus"></i>Add
                 </button>
               </nav>
-              <nav style="width:85px;padding:0 20;">
+              <!-- Update button -->
+              <nav style="padding:0 4px;">
                 <button type="button" id="FT-btn-update" class="custom-button-blue"
                   onclick="openOverlay('overlay0')"
-                  style="float:right;width:80px;margin-right:2px;">
-                  <i style="color:white;margin-right:3px;" class="fas fa-pen-to-square"></i>Update
+                  style="width:88px;">
+                  <i style="color:white;margin-right:4px;" class="fas fa-pen-to-square"></i>Update
                 </button>
               </nav>
-              <nav style="width:90px;padding:0 20;">
-                <button type="button" id="downloadftbtn" class="custom-button-gray"
+              <!-- Download icon-only button -->
+              <nav style="padding:0 4px;">
+                <button type="button" id="downloadftbtn"
                   onclick="downftallcsv()"
-                  style="float:right;width:88px;margin-right:2px;">
-                  <i style="color:white;margin-right:3px;" class="fas fa-download"></i>Download
+                  style="width:38px;height:34px;background:#3f61b8;border:1px solid rgb(14,32,164);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <i style="color:white;font-size:15px;" class="fas fa-download"></i>
                 </button>
               </nav>
             </div>
@@ -172,44 +175,86 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════
-     overlay0 — Offline / Paste Update
+     overlay0 — Update Status Approval
      ══════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="overlay0">
-  <div class="modal" style="width:480px;min-height:420px;">
-    <div style="background-color:rgb(7,21,110);color:white;padding:10px;margin:-20px -20px 15px;border-radius:8px 8px 0 0;">
-      <i class="fas fa-pen-to-square" style="margin-right:8px;"></i>Update Fund Transfer Status
-      <button type="button" onclick="closeOverlay('overlay0')" style="float:right;background:transparent;border:none;color:white;cursor:pointer;font-size:16px;">&#10005;</button>
+  <div class="modal" style="width:560px;min-height:auto;padding:24px;">
+    <h3 style="margin:0 0 16px;font-size:16px;font-weight:bold;">Update Status Approval</h3>
+
+    <div style="border:1px solid #ddd;border-radius:6px;padding:16px;">
+
+      <!-- Top paste area -->
+      <div style="display:flex;align-items:stretch;border:1px solid #ccc;border-radius:4px;margin-bottom:16px;overflow:hidden;">
+        <textarea id="offline-update" rows="3" style="flex:1;border:none;resize:none;font-size:12px;padding:8px;outline:none;" placeholder="Paste encrypted reference code here..."></textarea>
+        <button type="button" onclick="camisftpaste()" style="width:52px;background:#f5f5f5;border:none;border-left:1px solid #ccc;cursor:pointer;font-size:22px;color:#333;">
+          <i class="fas fa-paste"></i>
+        </button>
+      </div>
+
+      <!-- Row: Branch Transaction Date | Transaction ID -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px;color:#555;">Branch Transaction Date</label>
+          <input type="text" id="pastedate" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="font-size:12px;color:#555;">Transaction ID</label>
+          <input type="text" id="pasteid" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+      </div>
+
+      <!-- Row: Transfer Type | Amount -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px;color:#555;">Transfer Type</label>
+          <input type="text" id="pastetype" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="font-size:12px;color:#555;">Amount</label>
+          <input type="text" id="pasteamt" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+      </div>
+
+      <!-- Row: Branch | Bank Account No. (box) -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px;color:#555;">Branch</label>
+          <input type="text" id="pastebranch" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="font-size:12px;color:#555;">Bank Account No.:</label>
+          <textarea id="pastebank" readonly rows="2" style="width:100%;border:1px solid #ccc;border-radius:4px;font-size:13px;padding:6px;resize:none;box-sizing:border-box;margin-top:2px;"></textarea>
+        </div>
+      </div>
+
+      <!-- Row: Original Status | Update Status to -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="font-size:12px;color:#555;">Original Status:</label>
+          <input type="text" id="statusfrom" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="font-size:12px;color:#555;">Update Status to:</label>
+          <input type="text" id="updateto" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;font-weight:bold;box-sizing:border-box;">
+        </div>
+      </div>
+
+      <!-- Bottom paste / reason area -->
+      <div style="display:flex;align-items:stretch;border:1px solid #ccc;border-radius:4px;overflow:hidden;">
+        <input type="text" id="reason" style="flex:1;border:none;font-size:12px;padding:8px;outline:none;" placeholder="Reason / remarks...">
+        <button type="button" style="width:52px;background:#f5f5f5;border:none;border-left:1px solid #ccc;cursor:pointer;font-size:22px;color:#333;">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+
+      <!-- Hidden helpers -->
+      <input type="hidden" id="Bcasbranch">
+      <input type="hidden" id="alertmessage">
     </div>
 
-    <label style="font-size:11px;color:gray;">Paste encrypted reference code:</label>
-    <textarea id="offline-update" rows="3" style="width:100%;font-size:11px;resize:none;margin-bottom:8px;" placeholder="Paste here then click Paste & Decode"></textarea>
-    <button type="button" class="custom-button-blue" style="width:140px;margin-bottom:12px;" onclick="camisftpaste()">
-      <i class="fas fa-paste" style="margin-right:5px;"></i>Paste &amp; Decode
-    </button>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
-      <div><label style="font-size:10px;color:gray;">Date</label><br><input type="text" id="pastedate" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Type</label><br><input type="text" id="pastetype" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Transaction ID</label><br><input type="text" id="pasteid" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Amount</label><br><input type="text" id="pasteamt" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Branch</label><br><input type="text" id="pastebranch" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Bank</label><br><input type="text" id="pastebank" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Current Status</label><br><input type="text" id="statusfrom" readonly style="width:100%;"></div>
-      <div><label style="font-size:10px;color:gray;">Update To</label><br><input type="text" id="updateto" readonly style="width:100%;font-weight:bold;"></div>
-    </div>
-    <div style="margin-top:8px;">
-      <label style="font-size:10px;color:gray;">Reason</label><br>
-      <input type="text" id="reason" style="width:100%;font-size:12px;">
-    </div>
-    <!-- Hidden helpers for offline update script -->
-    <input type="hidden" id="Bcasbranch">
-    <input type="hidden" id="alertmessage">
-
-    <div style="margin-top:15px;text-align:right;">
-      <button type="button" id="FT-btn-update-overlay0" class="custom-button-blue" style="width:100px;" onclick="camisftofflineupdate('ft-data-table','overlay0')">
-        <i class="fas fa-check" style="margin-right:5px;"></i>Save
-      </button>
-      <button type="button" class="custom-button-white" style="width:80px;margin-left:5px;" onclick="closeupdateOverlay('overlay0')">Cancel</button>
+    <div style="margin-top:16px;text-align:right;">
+      <button type="button" id="FT-btn-update-overlay0" class="custom-button-gray" style="width:80px;" onclick="camisftofflineupdate('ft-data-table','overlay0')">Approve</button>
+      <button type="button" class="custom-button-gray" style="width:70px;margin-left:8px;" onclick="closeupdateOverlay('overlay0')">Close</button>
     </div>
   </div>
 </div>
@@ -218,94 +263,99 @@
      overlay1 — Add New Fund Transfer
      ══════════════════════════════════════════════════════════════ -->
 <div class="overlay" id="overlay1">
-  <div class="modal" style="width:500px;min-height:520px;">
-    <div style="background-color:rgb(7,21,110);color:white;padding:10px;margin:-20px -20px 15px;border-radius:8px 8px 0 0;">
-      <i class="fas fa-square-plus" style="margin-right:8px;"></i>New Fund Transfer
-      <button type="button" onclick="closeOverlay('overlay1')" style="float:right;background:transparent;border:none;color:white;cursor:pointer;font-size:16px;">&#10005;</button>
-    </div>
+  <div class="modal" style="width:560px;min-height:auto;padding:24px;">
+    <h3 style="margin:0 0 16px;font-size:16px;font-weight:bold;">New Transaction</h3>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">
-      <!-- Type -->
-      <div style="grid-column:1/-1;">
-        <label style="font-size:10px;color:gray;">Transaction Type <span style="color:red;">*</span></label><br>
-        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
-          <input type="text" id="tnstype" placeholder="Select type" style="font-size:12px;width:100%;" onkeyup="filterDropdownnewtype()" onclick="toggleDropdownnewtype()">
-          <span class="arrow">&#129171;</span>
+    <div style="border:1px solid #ddd;border-radius:6px;padding:16px;">
+
+      <!-- Row 1: Transfer Type | Amount -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div class="dropdown" style="font-size:13px;height:40px;">
+          <input type="text" id="tnstype" placeholder="Transfer Type" style="font-size:13px;width:100%;height:40px;border:1px solid red;border-radius:4px;padding:0 8px;box-sizing:border-box;" onkeyup="filterDropdownnewtype()" onclick="toggleDropdownnewtype()">
+          <span class="arrow" style="right:8px;top:12px;">&#9660;</span>
           <div id="dropdownList-newtype" class="dropdown-list">
             <div>Send</div><div>Deposit</div><div>Withdraw</div>
           </div>
         </div>
+        <input type="text" id="newftamt" placeholder="Amount" style="font-size:13px;height:40px;border:1px solid #ccc;border-radius:4px;padding:0 8px;box-sizing:border-box;width:100%;"
+          onkeydown="checkEnter(event)" onblur="this.value=formatNumber(this.value)">
       </div>
-      <!-- Origin -->
-      <div>
-        <label style="font-size:10px;color:gray;">Origin <span style="color:red;">*</span></label><br>
-        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
-          <input type="text" id="neworigin" placeholder="Origin branch" style="font-size:12px;width:100%;" onkeyup="filterDropdownneworig()">
-          <span class="arrow">&#129171;</span>
+
+      <!-- Row 2: Origin Branch | Destination Branch -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div class="dropdown" style="font-size:13px;height:40px;">
+          <input type="text" id="neworigin" placeholder="Origin Branch" style="font-size:13px;width:100%;height:40px;border:1px solid #ccc;border-radius:4px;padding:0 8px;box-sizing:border-box;" onkeyup="filterDropdownneworig()">
+          <span class="arrow" style="right:8px;top:12px;">&#9660;</span>
           <div id="dropdownList-neworig" class="dropdown-list">
             <div>AAA</div><div>AAB</div><div>AAS</div><div>AAJ</div>
             <div>AAK</div><div>AAW</div><div>BBA</div><div>BBB</div>
           </div>
         </div>
-      </div>
-      <!-- Destination -->
-      <div>
-        <label style="font-size:10px;color:gray;">Destination <span style="color:red;">*</span></label><br>
-        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
-          <input type="text" id="newdest" placeholder="Destination branch" style="font-size:12px;width:100%;" onkeyup="filterDropdownnewdest()">
-          <span class="arrow">&#129171;</span>
+        <div class="dropdown" style="font-size:13px;height:40px;">
+          <input type="text" id="newdest" placeholder="Destination Branch" style="font-size:13px;width:100%;height:40px;border:1px solid #ccc;border-radius:4px;padding:0 8px;box-sizing:border-box;" onkeyup="filterDropdownnewdest()">
+          <span class="arrow" style="right:8px;top:12px;">&#9660;</span>
           <div id="dropdownList-newdest" class="dropdown-list">
             <div>AAA</div><div>AAB</div><div>AAS</div><div>AAJ</div>
             <div>AAK</div><div>AAW</div><div>BBA</div><div>BBB</div>
           </div>
         </div>
       </div>
-      <!-- Amount -->
-      <div>
-        <label style="font-size:10px;color:gray;">Amount <span style="color:red;">*</span></label><br>
-        <input type="text" id="newftamt" placeholder="0.00" style="font-size:12px;width:100%;"
-          onkeydown="checkEnter(event)" onblur="this.value=formatNumber(this.value)">
-      </div>
-      <!-- Courier -->
-      <div>
-        <label style="font-size:10px;color:gray;">Courier <span style="color:red;">*</span></label><br>
-        <input type="text" id="newftcourier" placeholder="Courier name" style="font-size:12px;width:100%;"
-          onkeydown="AutoMemo(event)" onblur="AutoMemoleavefocus()">
-      </div>
-      <!-- Bank (shown for Deposit/Withdraw) -->
-      <div>
-        <label style="font-size:10px;color:gray;">Bank</label><br>
-        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
-          <input type="text" id="nwbnk" placeholder="Select bank" style="font-size:12px;width:100%;" onkeyup="filterDropdownnewbank()" onclick="toggleDropdownnewbank()">
-          <span class="arrow">&#129171;</span>
+
+      <!-- Row 3: Bank Account (full width) -->
+      <div style="margin-bottom:10px;">
+        <label style="font-size:11px;color:gray;">Bank Account No.:</label>
+        <div class="dropdown" style="font-size:13px;height:40px;margin-top:2px;">
+          <input type="text" id="nwbnk" placeholder="Select Bank Account" style="font-size:13px;width:100%;height:40px;border:1px solid #ccc;border-radius:4px;padding:0 8px;box-sizing:border-box;" onkeyup="filterDropdownnewbank()" onclick="toggleDropdownnewbank()">
+          <span class="arrow" style="right:8px;top:12px;">&#9660;</span>
           <div id="dropdownList-newbank" class="dropdown-list">
             <div>LBP</div><div>PNB</div><div>MBTC</div><div>UB</div>
           </div>
         </div>
       </div>
-      <!-- Other/Remarks -->
-      <div>
-        <label style="font-size:10px;color:gray;">Other</label><br>
-        <input type="text" id="newftother" placeholder="Additional info" style="font-size:12px;width:100%;"
+
+      <!-- Row 4: Courier | Additional Memo -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+        <input type="text" id="newftcourier" placeholder="Courier (ex: 1234: JUAN DELA CRUZ)" style="font-size:13px;height:40px;border:1px solid #ccc;border-radius:4px;padding:0 8px;box-sizing:border-box;width:100%;"
+          onkeydown="AutoMemo(event)" onblur="AutoMemoleavefocus()">
+        <input type="text" id="newftother" placeholder="Additional Memo (Optional)" style="font-size:13px;height:40px;border:1px solid #ccc;border-radius:4px;padding:0 8px;box-sizing:border-box;width:100%;"
           onkeydown="AutoMemo(event)" onblur="AutoMemoleavefocus()">
       </div>
-      <!-- Transaction ID (auto) -->
-      <div style="grid-column:1/-1;">
-        <label style="font-size:10px;color:gray;">Transaction ID (auto-generated)</label><br>
-        <input type="text" id="newfttnxid" readonly style="font-size:12px;width:100%;background:#f5f5f5;">
-      </div>
-      <!-- Memo (auto) -->
-      <div style="grid-column:1/-1;">
-        <label style="font-size:10px;color:gray;">Memo</label><br>
-        <input type="text" id="newftmemo" style="font-size:12px;width:100%;">
-      </div>
-    </div>
 
-    <div style="margin-top:15px;text-align:right;">
-      <button type="button" id="savenew" class="custom-button-blue" style="width:80px;background:gray;cursor:not-allowed;" disabled onclick="saveftnew()">
-        <i class="fas fa-save" style="margin-right:5px;"></i>Save
-      </button>
-      <button type="button" class="custom-button-white" style="width:80px;margin-left:5px;" onclick="closeOverlay('overlay1')">Cancel</button>
+      <!-- Row 5: Memo (full width, underline style) -->
+      <div style="margin-bottom:14px;">
+        <label style="font-size:12px;">Memo:</label>
+        <input type="text" id="newftmemo" style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;box-sizing:border-box;">
+      </div>
+
+      <!-- Row 6: Transaction ID | Remarks -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div>
+          <label style="font-size:12px;">Transaction ID:</label>
+          <input type="text" id="newfttnxid" readonly style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;background:transparent;box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="font-size:12px;">Remarks:</label>
+          <input type="text" id="newftremarks" style="width:100%;border:none;border-bottom:1px solid #aaa;font-size:13px;padding:4px 0;outline:none;box-sizing:border-box;">
+        </div>
+      </div>
+
+      <!-- Row 7: Created by | Created date -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;">
+        <div>
+          <label style="font-size:12px;">Created by:</label>
+          <div id="newft-createdby" style="font-size:13px;font-weight:500;border-bottom:1px solid #aaa;padding:4px 0;min-height:22px;"></div>
+        </div>
+        <div>
+          <label style="font-size:12px;">Created date:</label>
+          <div id="newft-createddate" style="font-size:13px;border-bottom:1px solid #aaa;padding:4px 0;min-height:22px;"></div>
+        </div>
+      </div>
+
+    </div><!-- end inner card -->
+
+    <div style="margin-top:16px;text-align:right;">
+      <button type="button" id="savenew" class="custom-button-gray" style="width:70px;" disabled onclick="saveftnew()">Save</button>
+      <button type="button" class="custom-button-gray" style="width:70px;margin-left:8px;" onclick="closeOverlay('overlay1')">Close</button>
     </div>
   </div>
 </div>
@@ -435,6 +485,7 @@
       courier      : document.getElementById('newftcourier')?.value || '',
       memo,
       bank         : document.getElementById('nwbnk')?.value        || '',
+      remarks      : document.getElementById('newftremarks')?.value || '',
       area,
     };
     try {

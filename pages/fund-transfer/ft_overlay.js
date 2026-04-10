@@ -7,7 +7,22 @@
 // ── Overlay helpers ───────────────────────────────────────────────────────
 function openOverlay(id) {
   const el = document.getElementById(id);
-  if (el) el.classList.add('show');
+  if (!el) return;
+
+  // Populate Created by / Created date when opening Add New overlay
+  if (id === 'overlay1') {
+    const email = sessionStorage.getItem('userEmail') || sessionStorage.getItem('userRole') || '';
+    const today = new Date();
+    const mm  = String(today.getMonth() + 1).padStart(2, '0');
+    const dd  = String(today.getDate()).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const createdByEl   = document.getElementById('newft-createdby');
+    const createdDateEl = document.getElementById('newft-createddate');
+    if (createdByEl)   createdByEl.textContent   = email;
+    if (createdDateEl) createdDateEl.textContent = `${mm}/${dd}/${yyyy}`;
+  }
+
+  el.classList.add('show');
 }
 
 function closeOverlay(id) {
