@@ -31,21 +31,24 @@
     <div class="content active"><br><br>
       <div class="form-container">
         <form style="min-width:1100px;" id="formheight">
+
+          <!-- ── Filter bar ── -->
           <fieldset style="width:100%;height:14%;border:transparent;box-shadow:none;">
             <nav style="width:170px;margin-left:20px;">
               <label style="font-size:10px;color:gray;" for="datefromFTlist">Start Date:</label><br>
-              <input type="date" id="datefromFTlist">
+              <input type="date" id="datefromFTlist" onchange="ftdatechange()">
             </nav>
             <nav style="width:170px;">
               <label style="font-size:10px;color:gray;" for="datetoFTlist">End Date:</label><br>
-              <input type="date" id="datetoFTlist">
+              <input type="date" id="datetoFTlist" onchange="ftdatechange()">
             </nav>
             <nav style="width:140px;height:33px;"><br>
               <div class="dropdown" style="width:140px;font-size:12px;height:35px;">
                 <input type="text" id="ft-Area-drop" placeholder="All Area" style="font-size:12px;" onkeyup="filterDropdown()" onclick="toggleDropdown()">
                 <span class="arrow">&#129171;</span>
                 <div id="dropdownList" class="dropdown-list">
-                  <div value="ZAA">ZAA</div><div value="ZAB">ZAB</div><div value="ZAC">ZAC</div><div value="ZAM">ZAM</div>
+                  <div value="ZAA">ZAA</div><div value="ZAB">ZAB</div>
+                  <div value="ZAC">ZAC</div><div value="ZAM">ZAM</div>
                 </div>
               </div>
             </nav>
@@ -63,10 +66,10 @@
             </nav>
             <nav style="width:150px;height:33px;margin-left:5px;"><br>
               <div class="dropdown" style="width:150px;font-size:12px;height:35px;">
-                <input type="text" id="ft-trns-drop" placeholder="All Transfers" style="font-size:12px;" onkeyup="filterDropdowntrns(event)" onclick="toggleDropdowntrns()">
+                <input type="text" id="ft-trns-drop" placeholder="All Transfers" style="font-size:12px;" onkeyup="filterDropdowntrns()" onclick="toggleDropdowntrns()">
                 <span class="arrow">&#129171;</span>
                 <div id="dropdownList-trans" class="dropdown-list">
-                  <div class="noncmd">Send</div><div>Deposit</div><div>Withdraw</div><div>All Bank Transfers</div>
+                  <div>Send</div><div>Deposit</div><div>Withdraw</div><div>All Bank Transfers</div>
                 </div>
               </div>
             </nav>
@@ -75,14 +78,14 @@
                 <input type="text" id="ft-status-drop" placeholder="All Status" style="font-size:12px;" onkeyup="filterDropdownstat()" onclick="toggleDropdownstat()">
                 <span class="arrow">&#129171;</span>
                 <div id="dropdownList-stat" class="dropdown-list">
-                  <div class="alltype" value="Pending">Pending</div>
-                  <div class="alltype" value="In-Transit">In-Transit</div>
-                  <div class="noncmd" value="Received">Received</div>
-                  <div class="cmd" value="Acknowledged">Acknowledged</div>
-                  <div class="cmd" value="Denied">Denied</div>
-                  <div class="alltype" value="Under Review">Under Review</div>
-                  <div class="alltype" value="Voided">Voided</div>
-                  <div class="alltype" value="Pending-Void">Pending-Void</div>
+                  <div value="Pending">Pending</div>
+                  <div value="In-Transit">In-Transit</div>
+                  <div value="Received">Received</div>
+                  <div value="Acknowledged">Acknowledged</div>
+                  <div value="Denied">Denied</div>
+                  <div value="Under Review">Under Review</div>
+                  <div value="Voided">Voided</div>
+                  <div value="Pending-Void">Pending-Void</div>
                 </div>
               </div>
             </nav>
@@ -91,6 +94,7 @@
             </button>
           </fieldset>
 
+          <!-- ── Sub-tabs ── -->
           <div class="subtab-container" style="margin-top:1%;">
             <div class="subtabs"></div>
             <div class="subRtab active" id="sub-tab5-tab1" onclick="openTab(event,'subcon-tab5-tab1')">All Transactions</div>
@@ -98,6 +102,7 @@
             <div class="subRtab" id="sub-tab5-tab3" onclick="openTab(event,'subcon-tab5-tab3')">Bank Transactions</div>
           </div>
 
+          <!-- ── All Transactions tab ── -->
           <div id="subcon-tab5-tab1" class="subRcontent active-subRtab-content" style="padding:0;">
             <div class="search-container" style="text-align:left;">
               <nav style="width:320px;margin-left:15px;margin-bottom:20px;"><h3 style="font-size:16px;">Fund Transfers</h3></nav>
@@ -110,16 +115,23 @@
               </nav>
               <nav style="width:80px;padding:0 20;">
                 <button type="button" id="FT-btn-add" class="custom-button-blue"
-                  onclick="opennewOverlay('overlay1', event, 'ft-data-table', 0, 10, this)"
+                  onclick="openOverlay('overlay1')"
                   style="float:right;width:80px;">
                   <i style="color:white;margin-right:3px;" class="fas fa-square-plus"></i>Add
                 </button>
               </nav>
               <nav style="width:85px;padding:0 20;">
                 <button type="button" id="FT-btn-update" class="custom-button-blue"
-                  onclick="opennewOverlay('overlay0', event, 'ft-data-table', 0, 10, this)"
+                  onclick="openOverlay('overlay0')"
                   style="float:right;width:80px;margin-right:2px;">
                   <i style="color:white;margin-right:3px;" class="fas fa-pen-to-square"></i>Update
+                </button>
+              </nav>
+              <nav style="width:90px;padding:0 20;">
+                <button type="button" id="downloadftbtn" class="custom-button-gray"
+                  onclick="downftallcsv()"
+                  style="float:right;width:88px;margin-right:2px;">
+                  <i style="color:white;margin-right:3px;" class="fas fa-download"></i>Download
                 </button>
               </nav>
             </div>
@@ -139,12 +151,11 @@
                   <th style="font-size:12px;">Created By</th>
                   <th style="width:90px;font-size:12px;">Status</th>
                   <th style="font-size:12px;display:none;">Area</th>
-                  <th style="font-size:12px;display:none;">Recorded by</th>
-                  <th style="font-size:12px;display:none;">Recorded date</th>
-                  <th style="font-size:12px;display:none;">Closed by</th>
-                  <th style="font-size:12px;display:none;">Closed date</th>
-                  <th style="font-size:12px;display:none;">Transaction logs</th>
-                  <th style="font-size:12px;display:none;">Previous Status</th>
+                  <th style="font-size:12px;display:none;">Remarks</th>
+                  <th style="font-size:12px;display:none;">Reviewed By</th>
+                  <th style="font-size:12px;display:none;">Reviewed Date</th>
+                  <th style="font-size:12px;display:none;">Cleared By</th>
+                  <th style="font-size:12px;display:none;">Cleared Date</th>
                   <th style="font-size:12px;display:none;">ftid</th>
                 </tr>
               </thead>
@@ -160,42 +171,266 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════════════
+     overlay0 — Offline / Paste Update
+     ══════════════════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay0">
+  <div class="modal" style="width:480px;min-height:420px;">
+    <div style="background-color:rgb(7,21,110);color:white;padding:10px;margin:-20px -20px 15px;border-radius:8px 8px 0 0;">
+      <i class="fas fa-pen-to-square" style="margin-right:8px;"></i>Update Fund Transfer Status
+      <button type="button" onclick="closeOverlay('overlay0')" style="float:right;background:transparent;border:none;color:white;cursor:pointer;font-size:16px;">&#10005;</button>
+    </div>
+
+    <label style="font-size:11px;color:gray;">Paste encrypted reference code:</label>
+    <textarea id="offline-update" rows="3" style="width:100%;font-size:11px;resize:none;margin-bottom:8px;" placeholder="Paste here then click Paste & Decode"></textarea>
+    <button type="button" class="custom-button-blue" style="width:140px;margin-bottom:12px;" onclick="camisftpaste()">
+      <i class="fas fa-paste" style="margin-right:5px;"></i>Paste &amp; Decode
+    </button>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
+      <div><label style="font-size:10px;color:gray;">Date</label><br><input type="text" id="pastedate" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Type</label><br><input type="text" id="pastetype" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Transaction ID</label><br><input type="text" id="pasteid" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Amount</label><br><input type="text" id="pasteamt" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Branch</label><br><input type="text" id="pastebranch" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Bank</label><br><input type="text" id="pastebank" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Current Status</label><br><input type="text" id="statusfrom" readonly style="width:100%;"></div>
+      <div><label style="font-size:10px;color:gray;">Update To</label><br><input type="text" id="updateto" readonly style="width:100%;font-weight:bold;"></div>
+    </div>
+    <div style="margin-top:8px;">
+      <label style="font-size:10px;color:gray;">Reason</label><br>
+      <input type="text" id="reason" style="width:100%;font-size:12px;">
+    </div>
+    <!-- Hidden helpers for offline update script -->
+    <input type="hidden" id="Bcasbranch">
+    <input type="hidden" id="alertmessage">
+
+    <div style="margin-top:15px;text-align:right;">
+      <button type="button" id="FT-btn-update-overlay0" class="custom-button-blue" style="width:100px;" onclick="camisftofflineupdate('ft-data-table','overlay0')">
+        <i class="fas fa-check" style="margin-right:5px;"></i>Save
+      </button>
+      <button type="button" class="custom-button-white" style="width:80px;margin-left:5px;" onclick="closeupdateOverlay('overlay0')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     overlay1 — Add New Fund Transfer
+     ══════════════════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay1">
+  <div class="modal" style="width:500px;min-height:520px;">
+    <div style="background-color:rgb(7,21,110);color:white;padding:10px;margin:-20px -20px 15px;border-radius:8px 8px 0 0;">
+      <i class="fas fa-square-plus" style="margin-right:8px;"></i>New Fund Transfer
+      <button type="button" onclick="closeOverlay('overlay1')" style="float:right;background:transparent;border:none;color:white;cursor:pointer;font-size:16px;">&#10005;</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">
+      <!-- Type -->
+      <div style="grid-column:1/-1;">
+        <label style="font-size:10px;color:gray;">Transaction Type <span style="color:red;">*</span></label><br>
+        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
+          <input type="text" id="tnstype" placeholder="Select type" style="font-size:12px;width:100%;" onkeyup="filterDropdownnewtype()" onclick="toggleDropdownnewtype()">
+          <span class="arrow">&#129171;</span>
+          <div id="dropdownList-newtype" class="dropdown-list">
+            <div>Send</div><div>Deposit</div><div>Withdraw</div>
+          </div>
+        </div>
+      </div>
+      <!-- Origin -->
+      <div>
+        <label style="font-size:10px;color:gray;">Origin <span style="color:red;">*</span></label><br>
+        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
+          <input type="text" id="neworigin" placeholder="Origin branch" style="font-size:12px;width:100%;" onkeyup="filterDropdownneworig()">
+          <span class="arrow">&#129171;</span>
+          <div id="dropdownList-neworig" class="dropdown-list">
+            <div>AAA</div><div>AAB</div><div>AAS</div><div>AAJ</div>
+            <div>AAK</div><div>AAW</div><div>BBA</div><div>BBB</div>
+          </div>
+        </div>
+      </div>
+      <!-- Destination -->
+      <div>
+        <label style="font-size:10px;color:gray;">Destination <span style="color:red;">*</span></label><br>
+        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
+          <input type="text" id="newdest" placeholder="Destination branch" style="font-size:12px;width:100%;" onkeyup="filterDropdownnewdest()">
+          <span class="arrow">&#129171;</span>
+          <div id="dropdownList-newdest" class="dropdown-list">
+            <div>AAA</div><div>AAB</div><div>AAS</div><div>AAJ</div>
+            <div>AAK</div><div>AAW</div><div>BBA</div><div>BBB</div>
+          </div>
+        </div>
+      </div>
+      <!-- Amount -->
+      <div>
+        <label style="font-size:10px;color:gray;">Amount <span style="color:red;">*</span></label><br>
+        <input type="text" id="newftamt" placeholder="0.00" style="font-size:12px;width:100%;"
+          onkeydown="checkEnter(event)" onblur="this.value=formatNumber(this.value)">
+      </div>
+      <!-- Courier -->
+      <div>
+        <label style="font-size:10px;color:gray;">Courier <span style="color:red;">*</span></label><br>
+        <input type="text" id="newftcourier" placeholder="Courier name" style="font-size:12px;width:100%;"
+          onkeydown="AutoMemo(event)" onblur="AutoMemoleavefocus()">
+      </div>
+      <!-- Bank (shown for Deposit/Withdraw) -->
+      <div>
+        <label style="font-size:10px;color:gray;">Bank</label><br>
+        <div class="dropdown" style="width:100%;font-size:12px;height:35px;">
+          <input type="text" id="nwbnk" placeholder="Select bank" style="font-size:12px;width:100%;" onkeyup="filterDropdownnewbank()" onclick="toggleDropdownnewbank()">
+          <span class="arrow">&#129171;</span>
+          <div id="dropdownList-newbank" class="dropdown-list">
+            <div>LBP</div><div>PNB</div><div>MBTC</div><div>UB</div>
+          </div>
+        </div>
+      </div>
+      <!-- Other/Remarks -->
+      <div>
+        <label style="font-size:10px;color:gray;">Other</label><br>
+        <input type="text" id="newftother" placeholder="Additional info" style="font-size:12px;width:100%;"
+          onkeydown="AutoMemo(event)" onblur="AutoMemoleavefocus()">
+      </div>
+      <!-- Transaction ID (auto) -->
+      <div style="grid-column:1/-1;">
+        <label style="font-size:10px;color:gray;">Transaction ID (auto-generated)</label><br>
+        <input type="text" id="newfttnxid" readonly style="font-size:12px;width:100%;background:#f5f5f5;">
+      </div>
+      <!-- Memo (auto) -->
+      <div style="grid-column:1/-1;">
+        <label style="font-size:10px;color:gray;">Memo</label><br>
+        <input type="text" id="newftmemo" style="font-size:12px;width:100%;">
+      </div>
+    </div>
+
+    <div style="margin-top:15px;text-align:right;">
+      <button type="button" id="savenew" class="custom-button-blue" style="width:80px;background:gray;cursor:not-allowed;" disabled onclick="saveftnew()">
+        <i class="fas fa-save" style="margin-right:5px;"></i>Save
+      </button>
+      <button type="button" class="custom-button-white" style="width:80px;margin-left:5px;" onclick="closeOverlay('overlay1')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     overlay2 — View / Update Status
+     ══════════════════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay2">
+  <div class="modal" style="width:500px;min-height:520px;">
+    <div style="background-color:rgb(7,21,110);color:white;padding:10px;margin:-20px -20px 15px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between;">
+      <span><i class="fas fa-eye" style="margin-right:8px;"></i><input type="text" id="headr" readonly style="background:transparent;border:none;color:white;font-size:14px;font-weight:bold;width:280px;"></span>
+      <span id="NStatus-overlay2" style="font-size:11px;background:rgba(255,255,255,0.2);padding:3px 8px;border-radius:4px;margin-right:10px;"></span>
+      <button type="button" onclick="closeOverlay('overlay2')" style="background:transparent;border:none;color:white;cursor:pointer;font-size:16px;">&#10005;</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">
+      <div><label style="font-size:10px;color:gray;">Transaction Type</label><br><input type="text" id="viewtrnxtype" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Transaction ID</label><br><input type="text" id="viewtrnxid" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Amount</label><br><input type="text" id="viewamount" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Bank</label><br><input type="text" id="viewcftbank" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Origin</label><br><input type="text" id="vieworigin" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Destination</label><br><input type="text" id="viewdest" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Courier</label><br><input type="text" id="viewcftcourier" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Created Date</label><br><input type="text" id="viewcftcdate" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:10px;color:gray;">Memo</label><br><input type="text" id="viewcftmemo" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div style="grid-column:1/-1;"><label style="font-size:10px;color:gray;">Remarks</label><br><input type="text" id="viewcftremarks" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Created By</label><br><input type="text" id="viewcftcby" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Reviewed By</label><br><input type="text" id="viewcftrby" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Reviewed Date</label><br><input type="text" id="viewcftrdate" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Cleared By</label><br><input type="text" id="viewcftclby" readonly style="width:100%;background:#f9f9f9;"></div>
+      <div><label style="font-size:10px;color:gray;">Cleared Date</label><br><input type="text" id="viewcftcldate" readonly style="width:100%;background:#f9f9f9;"></div>
+    </div>
+
+    <!-- Role-based action buttons -->
+    <div style="margin-top:15px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
+      <button type="button" id="FT-btn-flag-overlay2"    class="custom-button-blue"  style="display:none;width:110px;" onclick="confirmFTAction('overlay2','Under Review')"><i class="fas fa-flag" style="margin-right:4px;"></i>Flag Review</button>
+      <button type="button" id="FT-btn-cancel-flag-overlay2" class="custom-button-white" style="display:none;width:120px;" onclick="confirmFTAction('overlay2','In-Transit')"><i class="fas fa-rotate-left" style="margin-right:4px;"></i>Cancel Flag</button>
+      <button type="button" id="FT-btn-ack-overlay2"     class="custom-button-blue"  style="display:none;width:110px;" onclick="confirmFTAction('overlay2','Acknowledged')"><i class="fas fa-check" style="margin-right:4px;"></i>Acknowledge</button>
+      <button type="button" id="FT-btn-deny-overlay2"    style="display:none;width:80px;background:#c0392b;color:white;border:none;border-radius:4px;cursor:pointer;padding:6px;" onclick="confirmFTAction('overlay2','Denied')"><i class="fas fa-times" style="margin-right:4px;"></i>Deny</button>
+      <button type="button" id="FT-btn-cancel-ack-overlay2"  class="custom-button-white" style="display:none;width:130px;" onclick="confirmFTAction('overlay2','In-Transit')"><i class="fas fa-rotate-left" style="margin-right:4px;"></i>Cancel Ack</button>
+      <button type="button" id="FT-btn-cancel-denied-overlay2" class="custom-button-white" style="display:none;width:130px;" onclick="confirmFTAction('overlay2','In-Transit')"><i class="fas fa-rotate-left" style="margin-right:4px;"></i>Cancel Deny</button>
+      <button type="button" id="FT-btn-cancel-new-overlay2"  class="custom-button-white" style="display:none;width:80px;" onclick="confirmFTAction('overlay2','Voided')"><i class="fas fa-ban" style="margin-right:4px;"></i>Void</button>
+      <button type="button" id="FT-btn-save-overlay2"    class="custom-button-blue"  style="display:none;width:80px;" onclick="confirmFTAction('overlay2','In-Transit')"><i class="fas fa-paper-plane" style="margin-right:4px;"></i>Send</button>
+      <button type="button" class="custom-button-white" style="width:80px;" onclick="closeOverlay('overlay2')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     Sub-overlay — Save confirmation (Add New)
+     ══════════════════════════════════════════════════════════════ -->
+<div class="suboverlay" id="ftconfirmation">
+  <div class="modal" style="min-height:160px;">
+    <p style="font-size:14px;" id="xmessage">Are you sure you want to save this transaction?</p>
+    <div style="text-align:right;margin-top:20px;">
+      <button type="button" class="custom-button-blue" style="width:80px;" onclick="confirmed()">Yes</button>
+      <button type="button" class="custom-button-white" style="width:80px;margin-left:8px;" onclick="closeftnew()">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sub-overlay — Update confirmation (Offline update) -->
+<div class="suboverlay" id="ftupdateconfirmation">
+  <div class="modal" style="min-height:160px;">
+    <p style="font-size:14px;" id="updatemessage">Are you sure you want to update this status?</p>
+    <div style="text-align:right;margin-top:20px;">
+      <button type="button" class="custom-button-blue" style="width:80px;" onclick="confirmupdate('ftupdateconfirmation','overlay0')">Yes</button>
+      <button type="button" class="custom-button-white" style="width:80px;margin-left:8px;" onclick="closeftupdate('ftupdateconfirmation')">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sub-overlay — Status action confirmation (View overlay) -->
+<div class="suboverlay" id="ftactionconfirmation">
+  <div class="modal" style="min-height:160px;">
+    <p style="font-size:14px;" id="ftactionmessage">Confirm status update?</p>
+    <div style="text-align:right;margin-top:20px;">
+      <button type="button" class="custom-button-blue" style="width:80px;" id="ftactionconfirmbtn">Yes</button>
+      <button type="button" class="custom-button-white" style="width:80px;margin-left:8px;" onclick="document.getElementById('ftactionconfirmation').classList.remove('show')">No</button>
+    </div>
+  </div>
+</div>
+
 <!-- Notification -->
 <div id="xnotification" class="xnotification"><p style="font-size:14px;margin:10px;" id="xnotify"></p></div>
 
-<!-- Legacy scripts -->
+<!-- ── Scripts ── -->
 <script src="../../general_script.js"></script>
+<script src="./camis_ft_filter_table.js"></script>
+<script src="./camis_ft_copy_encrypt.js"></script>
+<script src="./camis_ft_offline_update.js"></script>
+<script src="./camis_ft_list_download.js"></script>
 <script src="./camis_ft_add_new.js"></script>
-<script src="../../camis_user_permission.js"></script>
+<script src="./ft_overlay.js"></script>
 <script src="../../sidebar.js"></script>
 <script src="../../page-shell.js"></script>
 
-<!-- Firestore module -->
 <script type="module">
-  import { initCamisFT, addFTRecord, renderFTTable } from './camis_ft.js';
+  import { renderFTTable, addFTRecord, confirmFTStatusUpdate } from './camis_ft.js';
   import { initAuthGuard } from '../shared/auth_guard.js';
 
   window.renderFTTable = renderFTTable;
-  window.addFTRecord   = addFTRecord;
 
-  initAuthGuard((user) => {
-    document.getElementById('userRole').innerText = user.role;
-    const today = new Date().toISOString().slice(0, 10);
-    document.getElementById('datefromFTlist').value = today;
-    document.getElementById('datetoFTlist').value   = today;
-    renderFTTable({ dateFrom: today, dateTo: today });
-  });
+  // Expose confirmFTAction for overlay buttons
+  window.confirmFTAction = function(overlayId, newStatus) {
+    const msg = document.getElementById('ftactionmessage');
+    if (msg) msg.textContent = `Update status to "${newStatus}"?`;
+    const confirmBtn = document.getElementById('ftactionconfirmbtn');
+    confirmBtn.onclick = async () => {
+      document.getElementById('ftactionconfirmation').classList.remove('show');
+      await confirmFTStatusUpdate(overlayId, newStatus);
+    };
+    document.getElementById('ftactionconfirmation').classList.add('show');
+  };
 
-  window.confirmed = async function (conf, ova) {
+  // Expose confirmed() for Add New save confirmation
+  window.confirmed = async function () {
     const area = document.getElementById('ft-Area-drop')?.value || '';
     const memo = document.getElementById('newftmemo')?.value    || '';
-    const match = memo.match(/((AREA|HO)\s+(LBP|PNB|MBTC|UB))/);
     const data = {
       date         : new Date().toISOString().slice(0, 10),
       type         : document.getElementById('tnstype')?.value      || '',
       transactionId: document.getElementById('newfttnxid')?.value   || '',
-      origin       : document.getElementById('neworigin')?.value    || (match?.[0] || ''),
-      destination  : document.getElementById('newdest')?.value      || (match?.[0] || ''),
+      origin       : document.getElementById('neworigin')?.value    || '',
+      destination  : document.getElementById('newdest')?.value      || '',
       amount       : document.getElementById('newftamt')?.value     || '0',
       courier      : document.getElementById('newftcourier')?.value || '',
       memo,
@@ -204,19 +439,28 @@
     };
     try {
       await addFTRecord(data);
-      document.getElementById('ftconfirmation')?.classList.remove('show');
-      if (typeof closeOverlay === 'function') closeOverlay(ova);
+      document.getElementById('ftconfirmation').classList.remove('show');
+      closeOverlay('overlay1');
       const today = new Date().toISOString().slice(0, 10);
       await renderFTTable({
         dateFrom: document.getElementById('datefromFTlist')?.value || today,
         dateTo  : document.getElementById('datetoFTlist')?.value   || today,
       });
+      showNotification();
+      document.getElementById('xnotify').innerHTML =
+        '<i class="fa-solid fa-circle-check" style="margin-right:10px;font-size:20px;color:white"></i>Fund Transfer saved successfully.';
     } catch (err) {
       alert('Error saving: ' + err.message);
     }
   };
+
+  initAuthGuard((user) => {
+    document.getElementById('userRole').innerText = user.role;
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById('datefromFTlist').value = today;
+    document.getElementById('datetoFTlist').value   = today;
+    renderFTTable({ dateFrom: today, dateTo: today });
+  });
 </script>
 </body>
 </html>
-
-

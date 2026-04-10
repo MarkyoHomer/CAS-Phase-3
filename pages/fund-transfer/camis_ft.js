@@ -120,6 +120,7 @@ export async function renderFTTable(filters = {}) {
   rows.forEach((ft, idx) => {
     const tr = tbody.insertRow();
     tr.dataset.id = ft.id;
+    tr.style.display = 'table-row';
 
     // Action cell: View + Copy buttons
     const actionCell = tr.insertCell(0);

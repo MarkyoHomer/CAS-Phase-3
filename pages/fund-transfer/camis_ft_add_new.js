@@ -23,12 +23,12 @@ function _allDropdownsClose(except) {
 }
 
 function _checkSaveEnabled() {
-  const ok = ttypef.style.border !== '1px solid red'
-    && ndbf.style.border  !== '1px solid red'
-    && namtf.style.border !== '1px solid red'
-    && nobf.style.border  !== '1px solid red'
-    && nwbnk.style.border !== '1px solid red'
-    && ncorf.style.border !== '1px solid red';
+  const ok = tnstype.style.border !== '1px solid red'
+    && newdest.style.border    !== '1px solid red'
+    && newftamt.style.border   !== '1px solid red'
+    && neworigin.style.border  !== '1px solid red'
+    && nwbnk.style.border      !== '1px solid red'
+    && newftcourier.style.border !== '1px solid red';
   savenew.style.backgroundColor = ok ? '#3f61b8' : 'gray';
   savenew.disabled   = !ok;
   savenew.style.cursor = ok ? 'pointer' : 'not-allowed';
@@ -72,7 +72,7 @@ function filterDropdownneworig() {
   Array.from(dropdownList5.getElementsByTagName("div")).forEach(item => {
     item.style.display = item.textContent.toUpperCase().includes(f) ? "" : "none";
   });
-  if (!searchInput5.value) { nobf.style.border = "1px solid red"; _checkSaveEnabled(); }
+  if (!searchInput5.value) { neworigin.style.border = "1px solid red"; _checkSaveEnabled(); }
 }
 
 dropdownList5.addEventListener("click", function(event) {
@@ -89,7 +89,7 @@ dropdownList5.addEventListener("click", function(event) {
   });
   if (searchInput6.value.trim() === selected) searchInput6.value = "";
 
-  nobf.style.border = "1px solid #ccc";
+  neworigin.style.border = "1px solid #ccc";
   _refreshTxnId();
   _refreshMemo();
   _checkSaveEnabled();
@@ -104,7 +104,7 @@ function filterDropdownnewdest() {
   Array.from(dropdownList6.getElementsByTagName("div")).forEach(item => {
     item.style.display = item.textContent.toUpperCase().includes(f) ? "" : "none";
   });
-  if (!searchInput6.value) { ndbf.style.border = "1px solid red"; _checkSaveEnabled(); }
+  if (!searchInput6.value) { newdest.style.border = "1px solid red"; _checkSaveEnabled(); }
 }
 
 dropdownList6.addEventListener("click", function(event) {
@@ -123,7 +123,7 @@ dropdownList6.addEventListener("click", function(event) {
   });
   if (searchInput5.value.trim() === selected) searchInput5.value = "";
 
-  ndbf.style.border = "1px solid #ccc";
+  newdest.style.border = "1px solid #ccc";
   _refreshTxnId();
   _refreshMemo();
   _checkSaveEnabled();
@@ -182,7 +182,7 @@ dropdownList8.addEventListener("click", function(event) {
 
 function _onTypeChange() {
   const type = tnstype.value;
-  ttypef.style.border = "1px solid #ccc";
+  tnstype.style.border = "1px solid #ccc";
   _refreshTxnId();
 
   // Reset field states
@@ -191,29 +191,29 @@ function _onTypeChange() {
   if (type === 'Send') {
     neworigin.disabled = newdest.disabled = false;
     nwbnk.disabled = true; nwbnk.value = "";
-    nobf.style.border  = neworigin.value  ? "1px solid #ccc" : "1px solid red";
-    ndbf.style.border  = newdest.value    ? "1px solid #ccc" : "1px solid red";
-    ncorf.style.border = newftcourier.value ? "1px solid #ccc" : "1px solid red";
-    namtf.style.border = newftamt.value   ? "1px solid #ccc" : "1px solid red";
+    neworigin.style.border   = neworigin.value    ? "1px solid #ccc" : "1px solid red";
+    newdest.style.border     = newdest.value      ? "1px solid #ccc" : "1px solid red";
+    newftcourier.style.border = newftcourier.value ? "1px solid #ccc" : "1px solid red";
+    newftamt.style.border    = newftamt.value     ? "1px solid #ccc" : "1px solid red";
     nwbnk.style.border = "1px solid #ccc";
   } else if (type === 'Deposit') {
     neworigin.disabled = false; newdest.disabled = true; newdest.value = "";
     nwbnk.disabled = false;
-    nobf.style.border  = neworigin.value  ? "1px solid #ccc" : "1px solid red";
-    ndbf.style.border  = "1px solid #ccc";
-    nwbnk.style.border = nwbnk.value      ? "1px solid #ccc" : "1px solid red";
-    ncorf.style.border = newftcourier.value ? "1px solid #ccc" : "1px solid red";
-    namtf.style.border = newftamt.value   ? "1px solid #ccc" : "1px solid red";
+    neworigin.style.border   = neworigin.value    ? "1px solid #ccc" : "1px solid red";
+    newdest.style.border     = "1px solid #ccc";
+    nwbnk.style.border       = nwbnk.value        ? "1px solid #ccc" : "1px solid red";
+    newftcourier.style.border = newftcourier.value ? "1px solid #ccc" : "1px solid red";
+    newftamt.style.border    = newftamt.value     ? "1px solid #ccc" : "1px solid red";
   } else if (type === 'Withdraw') {
     newdest.disabled = false; neworigin.disabled = true; neworigin.value = "";
     nwbnk.disabled = false;
-    ndbf.style.border  = newdest.value    ? "1px solid #ccc" : "1px solid red";
-    nobf.style.border  = "1px solid #ccc";
-    nwbnk.style.border = nwbnk.value      ? "1px solid #ccc" : "1px solid red";
-    ncorf.style.border = newftcourier.value ? "1px solid #ccc" : "1px solid red";
-    namtf.style.border = newftamt.value   ? "1px solid #ccc" : "1px solid red";
+    newdest.style.border     = newdest.value      ? "1px solid #ccc" : "1px solid red";
+    neworigin.style.border   = "1px solid #ccc";
+    nwbnk.style.border       = nwbnk.value        ? "1px solid #ccc" : "1px solid red";
+    newftcourier.style.border = newftcourier.value ? "1px solid #ccc" : "1px solid red";
+    newftamt.style.border    = newftamt.value     ? "1px solid #ccc" : "1px solid red";
   } else {
-    ttypef.style.border = "1px solid red";
+    tnstype.style.border = "1px solid red";
   }
   _checkSaveEnabled();
 }
